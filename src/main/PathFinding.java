@@ -4,6 +4,7 @@ import tile.Node;
 import tile.TileManager;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class PathFinding {
 
@@ -142,7 +143,7 @@ public class PathFinding {
     }
     public void draw(Graphics2D g2){
         int x,y;
-        g2.setColor(Color.green);
+        BufferedImage image;
         cost = 0;
         for(int i = 0; i < tm.finalPathList.size(); i++){
             if(i != 0){
@@ -150,8 +151,14 @@ public class PathFinding {
             }
             x = tm.finalPathList.get(i).col;
             y = tm.finalPathList.get(i).row;
-            if(cost >= gp.player.remainingMovementPoints)
+            if(cost >= gp.player.remainingMovementPoints){
+                //czerwone strzalki i X -> na razie sa zielone ale jak dorysuje to sie to zmieni
                 g2.setColor(Color.red);
+            }
+            else{
+                g2.setColor(Color.green);
+            }
+
             g2.fillRect((x*gp.tileSize + gp.player.screenX - gp.player.worldX) + gp.tileSize/3, (y*gp.tileSize + gp.player.screenY - gp.player.worldY) + gp.tileSize/3, gp.tileSize/3, gp.tileSize/3);
         }
     }
