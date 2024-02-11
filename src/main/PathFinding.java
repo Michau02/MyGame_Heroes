@@ -176,7 +176,7 @@ public class PathFinding {
                 g2.setColor(Color.red);
             }
             else{
-                image = greenDown;
+                image = greenUp;
                 g2.drawImage(image, (x*gp.tileSize + gp.player.screenX - gp.player.worldX) + gp.tileSize/3, (y*gp.tileSize + gp.player.screenY - gp.player.worldY) + gp.tileSize/3, gp.tileSize/3, gp.tileSize/3, null);
             }
 
