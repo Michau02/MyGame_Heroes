@@ -3,7 +3,11 @@ package main;
 import tile.Node;
 import tile.TileManager;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class PathFinding {
 
@@ -11,10 +15,27 @@ public class PathFinding {
     TileManager tm;
     public Node startNode, goalNode, currentNode;
     int cost;
+    BufferedImage greenLeft, greenUpLeft, greenUpRight, greenRight, greenDownRight, greenDownLeft, greenDown, greenUp;
 
     public PathFinding(GamePanel gp, TileManager tm){
         this.gp = gp;
         this.tm = tm;
+        loadImages();
+    }
+    public void loadImages(){
+        try{
+            greenLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenLeft.png")));
+            greenUpLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenUpLeft.png")));
+            greenUpRight = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenUpRight.png")));
+            greenRight = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenRight.png")));
+            greenDownRight = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenDownRight.png")));
+            greenDownLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenDownLeft.png")));
+            greenDown = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenDown.png")));
+            greenUp = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenUp.png")));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
     public void findBestPath(int startX, int startY, int goalX, int goalY){
             tm.finalPathList.clear();
@@ -142,7 +163,7 @@ public class PathFinding {
     }
     public void draw(Graphics2D g2){
         int x,y;
-        g2.setColor(Color.green);
+        BufferedImage image;
         cost = 0;
         for(int i = 0; i < tm.finalPathList.size(); i++){
             if(i != 0){
@@ -150,8 +171,15 @@ public class PathFinding {
             }
             x = tm.finalPathList.get(i).col;
             y = tm.finalPathList.get(i).row;
-            if(cost >= gp.player.remainingMovementPoints)
+            if(cost >= gp.player.remainingMovementPoints){
+                //czerwone strzalki i X -> na razie sa zielone ale jak dorysuje to sie to zmieni
                 g2.setColor(Color.red);
+            }
+            else{
+                image = greenDown;
+                g2.drawImage(image, (x*gp.tileSize + gp.player.screenX - gp.player.worldX) + gp.tileSize/3, (y*gp.tileSize + gp.player.screenY - gp.player.worldY) + gp.tileSize/3, gp.tileSize/3, gp.tileSize/3, null);
+            }
+
             g2.fillRect((x*gp.tileSize + gp.player.screenX - gp.player.worldX) + gp.tileSize/3, (y*gp.tileSize + gp.player.screenY - gp.player.worldY) + gp.tileSize/3, gp.tileSize/3, gp.tileSize/3);
         }
     }
