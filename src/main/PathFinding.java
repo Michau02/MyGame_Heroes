@@ -14,8 +14,10 @@ public class PathFinding {
     GamePanel gp;
     TileManager tm;
     public Node startNode, goalNode, currentNode;
-    int cost;
-    BufferedImage greenLeft, greenUpLeft, greenUpRight, greenRight, greenDownRight, greenDownLeft, greenDown, greenUp;
+    int cost, travelTime;
+    BufferedImage   greenLeft, greenUpLeft, greenUpRight, greenRight, greenDownRight, greenDownLeft, greenDown, greenUp, greenCross,
+                    redLeft, redUpLeft, redUpRight, redRight, redDownRight, redDownLeft, redDown, redUp, redCross;
+    String dest;
 
     public PathFinding(GamePanel gp, TileManager tm){
         this.gp = gp;
@@ -32,6 +34,7 @@ public class PathFinding {
             greenDownLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenDownLeft.png")));
             greenDown = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenDown.png")));
             greenUp = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenUp.png")));
+            greenCross = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenCross.png")));
 
         }catch (IOException e){
             e.printStackTrace();
@@ -163,7 +166,7 @@ public class PathFinding {
     }
     public void draw(Graphics2D g2){
         int x,y;
-        BufferedImage image;
+        BufferedImage image = null;
         cost = 0;
         for(int i = 0; i < tm.finalPathList.size(); i++){
             if(i != 0){
@@ -171,16 +174,73 @@ public class PathFinding {
             }
             x = tm.finalPathList.get(i).col;
             y = tm.finalPathList.get(i).row;
-            if(cost >= gp.player.remainingMovementPoints){
-                //czerwone strzalki i X -> na razie sa zielone ale jak dorysuje to sie to zmieni
-                g2.setColor(Color.red);
-            }
-            else{
-                image = greenUp;
-                g2.drawImage(image, (x*gp.tileSize + gp.player.screenX - gp.player.worldX) + gp.tileSize/3, (y*gp.tileSize + gp.player.screenY - gp.player.worldY) + gp.tileSize/3, gp.tileSize/3, gp.tileSize/3, null);
-            }
+            if(i != tm.finalPathList.size()-1){ // strzalki
+                // ustalenie kierunku strzalki
+                if(tm.finalPathList.get(i).col < tm.finalPathList.get(i+1).col) {
+                    if(tm.finalPathList.get(i).row < tm.finalPathList.get(i+1).row) dest = "dr"; // down right
+                    else if (tm.finalPathList.get(i).row > tm.finalPathList.get(i+1).row) dest = "ur"; // up right
+                    else dest = "r"; // right
+                }
+                else if(tm.finalPathList.get(i).col > tm.finalPathList.get(i+1).col){
+                    if(tm.finalPathList.get(i).row < tm.finalPathList.get(i+1).row) dest = "dl"; // down left
+                    else if (tm.finalPathList.get(i).row > tm.finalPathList.get(i+1).row) dest = "ul"; // up left
+                    else dest = "l"; // left
+                }
+                else if(tm.finalPathList.get(i).row < tm.finalPathList.get(i+1).row) dest = "d"; // down
+                else dest = "u"; // up
 
-            g2.fillRect((x*gp.tileSize + gp.player.screenX - gp.player.worldX) + gp.tileSize/3, (y*gp.tileSize + gp.player.screenY - gp.player.worldY) + gp.tileSize/3, gp.tileSize/3, gp.tileSize/3);
+                //ustawienie odpowiedniego image
+                if(cost >= gp.player.remainingMovementPoints){
+                    //czerwone strzalki i X -> na razie sa zielone ale jak dorysuje to sie to zmieni
+                    image = greenUp;
+
+                }
+                else{
+                    switch(dest){
+                        case "u":
+                            image = greenUp;
+                            break;
+                        case "r":
+                            image = greenRight;
+                            break;
+                        case "d":
+                            image = greenDown;
+                            break;
+                        case "l":
+                            image = greenLeft;
+                            break;
+                        case "ul":
+                            image = greenUpLeft;
+                            break;
+                        case "dl":
+                            image = greenDownLeft;
+                            break;
+                        case "ur":
+                            image = greenUpRight;
+                            break;
+                        case "dr":
+                            image = greenDownRight;
+                            break;
+                    }
+
+                }
+            }
+           else{ //krzyzyk
+                if(cost >= gp.player.remainingMovementPoints){
+                    //czerwony
+                    image = greenCross;
+                }
+                else{
+                    //zielony
+                    image = greenCross;
+                }
+                travelTime = (int) Math.ceil(cost/gp.player.movementPoints) + 1;
+                if(travelTime != 1){
+                    g2.setColor(Color.white);
+                    g2.drawString(String.valueOf(travelTime), x*gp.tileSize + gp.player.screenX - gp.player.worldX - gp.player.mapOffsetX + gp.tileSize*4/5, (y*gp.tileSize + gp.player.screenY - gp.player.worldY - gp.player.mapOffsetY) + gp.tileSize/6);
+                }
+            }
+            g2.drawImage(image, (x*gp.tileSize + gp.player.screenX - gp.player.worldX - gp.player.mapOffsetX) + gp.tileSize/3, (y*gp.tileSize + gp.player.screenY - gp.player.worldY - gp.player.mapOffsetY) + gp.tileSize/3, gp.tileSize/3, gp.tileSize/3, null);
         }
     }
 

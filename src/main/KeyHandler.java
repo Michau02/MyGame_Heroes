@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     GamePanel gp;
-    public boolean  upPressed= false, leftPressed= false, rightPressed= false, downPressed= false,
+    public boolean  upPressed= false, leftPressed= false, rightPressed= false, downPressed= false, escapePressed = false,
                     endTurnPressed = false, endTurnReleased = false, movePressed = false, yKeyPressed = false;
 
     public KeyHandler(GamePanel gp){
@@ -32,17 +32,20 @@ public class KeyHandler implements KeyListener {
             movePressed = true;
         }
 
-       /* if(e.getKeyCode() == KeyEvent.VK_W){
+        if(e.getKeyCode() == KeyEvent.VK_UP){
             upPressed = true;
         }
-        if(e.getKeyCode() == KeyEvent.VK_S){
+        if(e.getKeyCode() == KeyEvent.VK_DOWN){
             downPressed = true;
         }
-        if(e.getKeyCode() == KeyEvent.VK_A){
+        if(e.getKeyCode() == KeyEvent.VK_LEFT){
             leftPressed= true;
         }
-        if(e.getKeyCode() == KeyEvent.VK_D){
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
             rightPressed = true;
+        }
+     /*   if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            escapePressed = true;
         }*/
     }
 
@@ -59,17 +62,20 @@ public class KeyHandler implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_M){
             movePressed = false;
         }
-       /* if(e.getKeyCode() == KeyEvent.VK_W){
+        if(e.getKeyCode() == KeyEvent.VK_UP){
             upPressed = false;
         }
-        if(e.getKeyCode() == KeyEvent.VK_S){
+        if(e.getKeyCode() == KeyEvent.VK_DOWN){
             downPressed = false;
         }
-        if(e.getKeyCode() == KeyEvent.VK_A){
+        if(e.getKeyCode() == KeyEvent.VK_LEFT){
             leftPressed= false;
         }
-        if(e.getKeyCode() == KeyEvent.VK_D){
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
             rightPressed = false;
+        }
+       /* if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            escapePressed = false;
         }*/
     }
 }

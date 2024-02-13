@@ -38,11 +38,11 @@ public class AssetSetter {
         //CURRENT RESOURCES
         gp.objInv[0] = new OBJ_WoodInv();
         gp.objInv[0].worldX = gp.tileSize/2;
-        gp.objInv[0].worldY = 17*gp.tileSize;
+        gp.objInv[0].worldY = (gp.maxWorldRow-1)*gp.tileSize;
 
         gp.objInv[1] = new OBJ_GoldInv();
         gp.objInv[1].worldX = 2*gp.tileSize + gp.tileSize/2;
-        gp.objInv[1].worldY = 17*gp.tileSize;
+        gp.objInv[1].worldY = (gp.maxWorldRow-1)*gp.tileSize;
 
         //CASTLES
         gp.cas[0] = new CAS_People();

@@ -1,5 +1,6 @@
 package main;
 
+import castles.CastlePanel;
 import castles.SuperCastle;
 import entity.Player;
 import object.SuperObject;
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
     public SuperObject[] obj = new SuperObject[10];
     public SuperObject[] objInv = new SuperObject[2];
     public SuperCastle[] cas = new SuperCastle[1];
+    public CastlePanel castlePanel = new CastlePanel(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     Thread gameThread;
 
@@ -50,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addMouseMotionListener(mouseMotionHandler);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        System.out.println(screenWidth + " " + screenHeight);
+        System.out.println(screenWidth + "x" + screenHeight);
     }
 
     public void setUpGame(){
@@ -117,18 +119,18 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.draw(g2);
 
         //object
-        for(int i = 0; i < obj.length; i++){
-            if(obj[i] != null)
-                obj[i].draw(g2, this);
+        for (SuperObject superObject : obj) {
+            if (superObject != null)
+                superObject.draw(g2, this);
         }
 
         //castles
-        for(int i = 0; i < cas.length; i++){
-            if(cas[i] != null)
-                cas[i].draw(g2, this);
+        for (SuperCastle ca : cas) {
+            if (ca != null)
+                ca.draw(g2, this);
         }
 
-        //gracz
+        //player
         player.draw(g2);
 
         //path
@@ -136,12 +138,16 @@ public class GamePanel extends JPanel implements Runnable {
 
         //panel for resources
         g2.setColor(new Color(100,75,60,130));
-        g2.fillRoundRect(-1, 17*tileSize, 27*tileSize, tileSize, 45,45);
+        g2.fillRoundRect(-1, (maxWorldRow-1)*tileSize, 27*tileSize, tileSize, 45,45);
+
+        if(player.inTheTown){//do zmiany poteznie xD
+            castlePanel.draw(g2);
+        }
 
         //current resources
-        for(int i = 0; i < objInv.length; i++){
-            if(objInv[i] != null)
-                objInv[i].draw(g2, this);
+        for (SuperObject superObject : objInv) {
+            if (superObject != null)
+                superObject.draw(g2, this);
         }
         g2.setColor(Color.white);
         g2.setFont(new Font("Arial", Font.ITALIC, 18));

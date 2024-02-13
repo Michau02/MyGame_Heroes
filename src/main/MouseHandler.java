@@ -29,8 +29,8 @@ public class MouseHandler implements MouseListener {
             x = e.getX();
             y = e.getY();
 
-            gp.mouseX = (x + gp.player.worldX - gp.player.screenX) / gp.tileSize;
-            gp.mouseY = (y + gp.player.worldY - gp.player.screenY) / gp.tileSize;
+            gp.mouseX = (x + gp.player.worldX - gp.player.screenX + gp.player.mapOffsetX) / gp.tileSize;
+            gp.mouseY = (y + gp.player.worldY - gp.player.screenY + gp.player.mapOffsetY) / gp.tileSize;
         }
         else{
             rightButtonPressed = true;
@@ -45,10 +45,8 @@ public class MouseHandler implements MouseListener {
             x = e.getX();
             y = e.getY();
 
-            released_tileX = (x + gp.player.worldX - gp.player.screenX) / gp.tileSize;
-            released_tileY = (y + gp.player.worldY - gp.player.screenY) / gp.tileSize;
-
-            System.out.println(released_tileX + " " + released_tileY);
+            released_tileX = (x + gp.player.worldX - gp.player.screenX + gp.player.mapOffsetX) / gp.tileSize;
+            released_tileY = (y + gp.player.worldY - gp.player.screenY + gp.player.mapOffsetY) / gp.tileSize;
         }
         else{
             rightButtonPressed = false;

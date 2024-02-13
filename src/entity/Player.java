@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Player extends Entity{
     GamePanel gp;
@@ -15,10 +16,11 @@ public class Player extends Entity{
     public int indexOfObjectToRemove, xLocationOfObjectToRemove, yLocationOfObjectToRemove;
     public boolean isGoingToObject = false;
     boolean pickedUpAnObject;
+    public boolean inTheTown = false;
     int pickedUpAnObjectCounter = 0;
     String pickedUpObjectsName, showPickedUpObjectMessage;
     int showPickedUpObjectX, showPickedUpObjectY;
-    int moveMapSpeed = 2; //scale given by player to calculate speed of moving map -> speed * moveMapSpeed;
+    int moveMapSpeed = 3; //scale given by player to calculate speed of moving map -> speed * moveMapSpeed;
     public int mapOffsetY = 0, mapOffsetX = 0;
 
     public int wood = 0, gold = 0;
@@ -47,40 +49,43 @@ public class Player extends Entity{
     public void getPlayerImage(){
         try{
 
-            leftStanding = ImageIO.read(getClass().getResourceAsStream("/res/player/leftStanding.png"));
-            leftWalk1 = ImageIO.read(getClass().getResourceAsStream("/res/player/leftWalk1.png"));
-            leftWalk2 = ImageIO.read(getClass().getResourceAsStream("/res/player/leftStanding.png"));
+            leftStanding = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftStanding.png")));
+            leftWalk1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftWalk1.png")));
+            leftWalk2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftStanding.png")));
 
-            rightStanding = ImageIO.read(getClass().getResourceAsStream("/res/player/rightStanding.png"));
-            rightWalk1 = ImageIO.read(getClass().getResourceAsStream("/res/player/leftWalk1.png"));
-            rightWalk2 = ImageIO.read(getClass().getResourceAsStream("/res/player/leftStanding.png"));
+            rightStanding = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/rightStanding.png")));
+            rightWalk1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftWalk1.png")));
+            rightWalk2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftStanding.png")));
 
-            upStanding = ImageIO.read(getClass().getResourceAsStream("/res/player/leftStanding.png"));
-            upWalk1 = ImageIO.read(getClass().getResourceAsStream("/res/player/leftWalk1.png"));
-            upWalk2 = ImageIO.read(getClass().getResourceAsStream("/res/player/leftStanding.png"));
+            upStanding = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftStanding.png")));
+            upWalk1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftWalk1.png")));
+            upWalk2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftStanding.png")));
 
-            downStanding = ImageIO.read(getClass().getResourceAsStream("/res/player/rightStanding.png"));
-            downWalk1 = ImageIO.read(getClass().getResourceAsStream("/res/player/leftWalk1.png"));
-            downWalk2 = ImageIO.read(getClass().getResourceAsStream("/res/player/leftStanding.png"));
+            downStanding = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/rightStanding.png")));
+            downWalk1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftWalk1.png")));
+            downWalk2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftStanding.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
     }
 
     public void update() {
+        isPlayerInTheTown(worldX/gp.tileSize, worldY/gp.tileSize);
+        if(gp.keyHandler.escapePressed && inTheTown) inTheTown = false;
 
-        if(gp.mouseMotionHandler.moveUp)
+        if(gp.mouseMotionHandler.moveUp || gp.keyHandler.upPressed)
             mapOffsetY -= speed*moveMapSpeed;
-        if(gp.mouseMotionHandler.moveDown)
+        if(gp.mouseMotionHandler.moveDown || gp.keyHandler.downPressed)
             mapOffsetY += speed*moveMapSpeed;
-        if(gp.mouseMotionHandler.moveLeft)
+        if(gp.mouseMotionHandler.moveLeft || gp.keyHandler.leftPressed)
             mapOffsetX -= speed*moveMapSpeed;
-        if(gp.mouseMotionHandler.moveRight)
+        if(gp.mouseMotionHandler.moveRight || gp.keyHandler.rightPressed)
             mapOffsetX += speed*moveMapSpeed;
         if (going) {
             counter++;
             goAnimation();
         } else {
+
             if (gp.keyHandler.endTurnReleased) {
                 remainingMovementPoints = movementPoints;
                 gp.clickCounter = 1;
@@ -96,14 +101,14 @@ public class Player extends Entity{
                 gp.keyHandler.movePressed = false;
                 going = true;
             }
-            if (gp.mouseHandler.leftButtonReleased) {
+            if (gp.mouseHandler.leftButtonReleased && (gp.mouseHandler.released_tileX >= 0 && gp.mouseHandler.released_tileX <= gp.screenWidth && gp.mouseHandler.released_tileY >= 0 && gp.mouseHandler.released_tileX <= gp.screenHeight)) {
                 //poruszanie sie po mapie
                 if (gp.mouseHandler.released_tileX == gp.mouseX && gp.mouseHandler.released_tileY == gp.mouseY && !gp.tileManager.tile[gp.tileManager.mapTileNum[gp.mouseX][gp.mouseY]].collision && !going) { // jeszcze przypadek can't reach there
                     gp.clickCounter++;
                     if (gp.clickCounter == 1 && !(worldX / gp.tileSize == gp.mouseX && worldY / gp.tileSize == gp.mouseY)) {
                         //wyswietl najkrotsza droge
                         isGoingToObject = goingToObject(gp.mouseHandler.released_tileX, gp.mouseHandler.released_tileY);
-                        gp.pathFinding.findBestPath(worldX / gp.tileSize - mapOffsetX/gp.tileSize, worldY / gp.tileSize - mapOffsetY/gp.tileSize, gp.mouseX, gp.mouseY);
+                        gp.pathFinding.findBestPath(worldX / gp.tileSize, worldY / gp.tileSize, gp.mouseX, gp.mouseY);
 
                         gp.oldX = gp.mouseHandler.released_tileX;
                         gp.oldY = gp.mouseHandler.released_tileY;
@@ -112,6 +117,8 @@ public class Player extends Entity{
                             gp.clickCounter = 0;
                             //zrob cos po podwojnym klinieciu - np idz we wskazane miejsce
                             going = true;
+                            mapOffsetX = 0;
+                            mapOffsetY = 0;
                             if(isGoingToObject) {
                                 if (gp.tileManager.finalPathList.size() - remainingMovementPoints <= 0)
                                     gp.tileManager.finalPathList.remove(gp.tileManager.finalPathList.size() - 1);
@@ -140,6 +147,15 @@ public class Player extends Entity{
                 gp.clickCounter = 0;
             }
         }
+    }
+    public void isPlayerInTheTown(int playersX, int playersY){
+        for(int i = 0; i < gp.cas.length; i++){
+            if(gp.cas[i] != null && (gp.cas[i].worldX+2)/gp.tileSize == playersX-1 && (gp.cas[i].worldY+2)/gp.tileSize == playersY-1){
+                inTheTown = true;
+                return;
+            }
+        }
+        inTheTown = false;
     }
     public boolean goingToObject(int destinationX, int destinationY){
         for(int i = 0; i < gp.obj.length; i++){
@@ -251,7 +267,7 @@ public class Player extends Entity{
         if(pickedUpAnObject){
             g2.setColor(Color.white);
             if(showPickedUpObjectMessage != null)
-                g2.drawString(showPickedUpObjectMessage, showPickedUpObjectX, showPickedUpObjectY);
+                g2.drawString(showPickedUpObjectMessage, showPickedUpObjectX - mapOffsetX, showPickedUpObjectY - mapOffsetY);
             pickedUpAnObjectCounter++;
             if(pickedUpAnObjectCounter % 60 == 0){
                 pickedUpAnObjectCounter = 0;
