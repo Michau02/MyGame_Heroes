@@ -228,7 +228,7 @@ public class PathFinding {
            else{ //krzyzyk
                 if(cost >= gp.player.remainingMovementPoints){
                     //czerwony
-                    image = greenCross;
+                    image = greenUpRight;
                 }
                 else{
                     //zielony
