@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldCol = screenWidth/tileSize;
     public final int maxWorldRow = screenHeight/tileSize;
 
+    //OBJECTS
     public MouseHandler mouseHandler = new MouseHandler(this);
     public MouseMotionHandler mouseMotionHandler = new MouseMotionHandler(this);
     public TileManager tileManager = new TileManager(this);
@@ -33,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
     public SuperCastle[] cas = new SuperCastle[1];
     public CastlePanel castlePanel = new CastlePanel(this);
     public AssetSetter assetSetter = new AssetSetter(this);
+    public UI ui = new UI(this);
     Thread gameThread;
 
     public int FPS = 60;
@@ -43,6 +45,13 @@ public class GamePanel extends JPanel implements Runnable {
     public int clickCounter = 0;
     public int oldX, oldY;
 
+    //GAMESTATES
+    public int gameState;
+    public final int pauseState = 0;
+    public final int playState = 1;
+    public final int castleState = 2;
+    public final int battleState = 3;
+    public final int settingsState = 4;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -57,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setUpGame(){
         assetSetter.setObject();
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -108,7 +118,19 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update(){
-        player.update();
+        if(gameState == playState){
+            player.update();
+        }
+        else if(gameState == pauseState){
+        }
+        else if(gameState == castleState){
+            //nothing for now
+        }
+        else if(gameState == battleState){
+            //nothing for now
+        }
+        else if(gameState == settingsState){
+        }
 
     }
     public void paintComponent(Graphics g){
@@ -136,29 +158,12 @@ public class GamePanel extends JPanel implements Runnable {
         //path
         pathFinding.draw(g2);
 
-        //panel for resources
-        g2.setColor(new Color(100,75,60,130));
-        g2.fillRoundRect(-1, (maxWorldRow-1)*tileSize, 27*tileSize, tileSize, 45,45);
-
         if(player.inTheTown){//do zmiany poteznie xD
             castlePanel.draw(g2);
         }
 
-        //current resources
-        for (SuperObject superObject : objInv) {
-            if (superObject != null)
-                superObject.draw(g2, this);
-        }
-        g2.setColor(Color.white);
-        g2.setFont(new Font("Arial", Font.ITALIC, 18));
-        g2.drawString("x " + player.wood, tileSize + tileSize/2, (int)(17.75*(double)tileSize));
-        g2.drawString("x " + player.gold, 3*tileSize + tileSize/2, (int)(17.75*(double)tileSize));
-
-        //FPSy
-        String s = "FPS: " + FPS;
-        g2.setColor(Color.BLUE);
-        g2.setFont(new Font("Italic", Font.BOLD, 20) );
-        g2.drawString(s, screenWidth - g2.getFontMetrics().stringWidth(s), g2.getFontMetrics().getAscent());
+        //ui
+        ui.draw(g2);
 
         g2.dispose();
     }

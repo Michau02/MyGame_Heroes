@@ -44,9 +44,9 @@ public class KeyHandler implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_RIGHT){
             rightPressed = true;
         }
-     /*   if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             escapePressed = true;
-        }*/
+        }
     }
 
     @Override
@@ -74,8 +74,18 @@ public class KeyHandler implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_RIGHT){
             rightPressed = false;
         }
-       /* if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             escapePressed = false;
-        }*/
+            if (gp.gameState == gp.playState)
+                gp.gameState = gp.settingsState;
+            else if (gp.gameState == gp.settingsState)
+                gp.gameState = gp.playState;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_P){
+            if(gp.gameState == gp.playState)
+                gp.gameState = gp.pauseState;
+            else if (gp.gameState == gp.pauseState)
+                gp.gameState = gp.playState;
+        }
     }
 }
