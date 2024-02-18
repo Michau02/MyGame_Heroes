@@ -14,7 +14,7 @@ public class PathFinding {
     GamePanel gp;
     TileManager tm;
     public Node startNode, goalNode, currentNode;
-    int cost, travelTime;
+    int cost, travelTime, m = 0;
     BufferedImage   greenLeft, greenUpLeft, greenUpRight, greenRight, greenDownRight, greenDownLeft, greenDown, greenUp, greenCross,
                     redLeft, redUpLeft, redUpRight, redRight, redDownRight, redDownLeft, redDown, redUp, redCross;
     String dest;
@@ -24,6 +24,7 @@ public class PathFinding {
         this.tm = tm;
         loadImages();
     }
+
     public void loadImages(){
         try{
             greenLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenLeft.png")));
@@ -139,12 +140,25 @@ public class PathFinding {
         tm.finalPathList.add(tm.finalPathList.size(), goalNode);
     }
     public void openNode(Node node){
-        if(!node.open && !node.solid && (!objectThere(node) || (node.col == gp.player.xLocationOfObjectToRemove && node.row == gp.player.yLocationOfObjectToRemove))){
+        if(!node.open && !node.solid && ((!objectThere(node)) || (node.col == gp.player.xLocationOfObjectToRemove && node.row == gp.player.yLocationOfObjectToRemove))){
             node.setAsOpen();
             node.parent = currentNode;
             tm.openList.add(node);
         }
     }
+    /*public boolean castleThere(Node node){
+        for(int i = 0; i < gp.cas.length; i++){
+            if(gp.cas[i] != null) {
+                if (((gp.cas[i].worldX / gp.tileSize == node.col || (gp.cas[i].worldX + 1) / gp.tileSize == node.col || (gp.cas[i].worldX + 2) / gp.tileSize == node.col) && gp.cas[i].worldY / gp.tileSize == node.row) ||
+                        ((gp.cas[i].worldX+2) / gp.tileSize == node.col && (gp.cas[i].worldY+1) / gp.tileSize == node.row) ||
+                        (gp.cas[i].worldX / gp.tileSize == node.col && (gp.cas[i].worldY+1) / gp.tileSize == node.row)){
+
+                System.out.println("node.col: " + node.col + ", node.row: " + node.row);
+                System.out.println("gp.cas[0].worldX: " + gp.cas[i].worldX/gp.tileSize + ", gp.cas[0].worldY: " + gp.cas[i].worldY/gp.tileSize + (node.col == gp.player.xLocationOfObjectToRemove) + " " + (node.row == gp.player.yLocationOfObjectToRemove));return true;}
+            }
+        }
+        return false;
+    }*/
     public boolean objectThere(Node node){
         for(int i = 0; i < gp.obj.length; i++){
             if(gp.obj[i] != null) {

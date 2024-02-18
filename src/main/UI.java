@@ -41,8 +41,8 @@ public class UI {
 
         g2.setFont(arialITALIC_18);
         g2.setColor(Color.white);
-        g2.drawString("x " + gp.player.wood, gp.tileSize + gp.tileSize/2, (int)(17.75*(double)gp.tileSize));
-        g2.drawString("x " + gp.player.gold, 3*gp.tileSize + gp.tileSize/2, (int)(17.75*(double)gp.tileSize));
+        g2.drawString("x " + gp.player.wood, gp.tileSize + gp.tileSize/2, (int)(((double)gp.maxWorldRow-0.25)*gp.tileSize));
+        g2.drawString("x " + gp.player.gold, 3*gp.tileSize + gp.tileSize/2, (int)(((double)gp.maxWorldRow-0.25)*gp.tileSize));
 
         //FPSy
         String s = "FPS: " + gp.FPS;

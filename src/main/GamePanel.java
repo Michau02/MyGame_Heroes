@@ -53,6 +53,9 @@ public class GamePanel extends JPanel implements Runnable {
     public final int battleState = 3;
     public final int settingsState = 4;
 
+    //OTHERS
+    int m = 0;
+
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -70,10 +73,24 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void startGameThread(){
+        if(m == 0){
+            for(int i = 0; i < cas.length; i++){
+                if(cas[i] != null){
+                    initialize(cas[i].worldX/tileSize, cas[i].worldY/tileSize);
+                }
+            }
+            m++;
+        }
         gameThread = new Thread(this);
         gameThread.start();
     }
-
+    public void initialize(int x, int y){
+        tileManager.mapNode[x][y].solid = true;
+        tileManager.mapNode[x+1][y].solid = true;
+        tileManager.mapNode[x+2][y].solid = true;
+        tileManager.mapNode[x][y+1].solid = true;
+        tileManager.mapNode[x+2][y+1].solid = true;
+    }
     @Override
     public void run() {
         // Game loop
