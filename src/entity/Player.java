@@ -116,6 +116,7 @@ public class Player extends Entity{
                         if (gp.oldX == gp.mouseHandler.released_tileX && gp.oldY == gp.mouseHandler.released_tileY) {
                             gp.clickCounter = 0;
                             //zrob cos po podwojnym klinieciu - np idz we wskazane miejsce
+                            gp.playerMoved = true;
                             going = true;
                             mapOffsetX = 0;
                             mapOffsetY = 0;
@@ -158,9 +159,9 @@ public class Player extends Entity{
         inTheTown = false;
     }
     public boolean goingToObject(int destinationX, int destinationY){
-        for(int i = 0; i < gp.obj.length; i++){
-            if(gp.obj[i] != null && gp.obj[i].worldY/gp.tileSize == destinationY){
-                if(gp.obj[i].worldX/gp.tileSize == destinationX){
+        for(int i = 0; i < gp.obj.size(); i++){
+            if(gp.obj.get(i) != null && gp.obj.get(i).worldY/gp.tileSize == destinationY){
+                if(gp.obj.get(i).worldX/gp.tileSize == destinationX){
                     indexOfObjectToRemove = i;
                     xLocationOfObjectToRemove = destinationX;
                     yLocationOfObjectToRemove = destinationY;
@@ -216,8 +217,8 @@ public class Player extends Entity{
         }
         else if(remainingMovementPoints != 0){
             if(isGoingToObject) {
-                pickUp(gp.obj[indexOfObjectToRemove].name);
-                gp.obj[indexOfObjectToRemove] = null;
+                pickUp(gp.obj.get(indexOfObjectToRemove).name);
+                gp.obj.remove(indexOfObjectToRemove);
             }
             going = false;
         }

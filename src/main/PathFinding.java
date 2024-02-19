@@ -160,9 +160,9 @@ public class PathFinding {
         return false;
     }*/
     public boolean objectThere(Node node){
-        for(int i = 0; i < gp.obj.length; i++){
-            if(gp.obj[i] != null) {
-                if (gp.obj[i].worldX / gp.tileSize == node.col && gp.obj[i].worldY / gp.tileSize == node.row)
+        for(int i = 0; i < gp.obj.size(); i++){
+            if(gp.obj.get(i) != null) {
+                if (gp.obj.get(i).worldX / gp.tileSize == node.col && gp.obj.get(i).worldY / gp.tileSize == node.row)
                     return true;
             }
         }

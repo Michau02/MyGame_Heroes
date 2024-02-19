@@ -15,34 +15,34 @@ public class AssetSetter {
     }
     public void setObject(){
         //OBJECTS
-        gp.obj[0] = new OBJ_Wood();
-        gp.obj[0].worldX = 5*gp.tileSize;
-        gp.obj[0].worldY = 10*gp.tileSize;
+        gp.obj.add(new OBJ_Wood());
+        gp.obj.get(0).worldX = 5*gp.tileSize;
+        gp.obj.get(0).worldY = 10*gp.tileSize;
 
-        gp.obj[1] = new OBJ_Wood();
-        gp.obj[1].worldX = 9*gp.tileSize;
-        gp.obj[1].worldY = 10*gp.tileSize;
+        gp.obj.add(new OBJ_Wood());
+        gp.obj.get(1).worldX = 9*gp.tileSize;
+        gp.obj.get(1).worldY = 10*gp.tileSize;
 
-        gp.obj[2] = new OBJ_Wood();
-        gp.obj[2].worldX = 5*gp.tileSize;
-        gp.obj[2].worldY = 15*gp.tileSize;
+        gp.obj.add(new OBJ_Wood());
+        gp.obj.get(2).worldX = 5*gp.tileSize;
+        gp.obj.get(2).worldY = 15*gp.tileSize;
 
-        gp.obj[3] = new OBJ_Gold();
-        gp.obj[3].worldX = 6*gp.tileSize;
-        gp.obj[3].worldY = 12*gp.tileSize;
+        gp.obj.add(new OBJ_Gold());
+        gp.obj.get(3).worldX = 6*gp.tileSize;
+        gp.obj.get(3).worldY = 12*gp.tileSize;
 
-        gp.obj[4] = new OBJ_Gold();
-        gp.obj[4].worldX = 8*gp.tileSize;
-        gp.obj[4].worldY = 13*gp.tileSize;
+        gp.obj.add(new OBJ_Gold());
+        gp.obj.get(4).worldX = 8*gp.tileSize;
+        gp.obj.get(4).worldY = 13*gp.tileSize;
 
         //CURRENT RESOURCES
-        gp.objInv[0] = new OBJ_WoodInv();
-        gp.objInv[0].worldX = gp.tileSize/2;
-        gp.objInv[0].worldY = (gp.maxWorldRow-1)*gp.tileSize;
+        gp.objInv.add(new OBJ_WoodInv());
+        gp.objInv.get(0).worldX = gp.tileSize/2;
+        gp.objInv.get(0).worldY = (gp.maxWorldRow-1)*gp.tileSize;
 
-        gp.objInv[1] = new OBJ_GoldInv();
-        gp.objInv[1].worldX = 2*gp.tileSize + gp.tileSize/2;
-        gp.objInv[1].worldY = (gp.maxWorldRow-1)*gp.tileSize;
+        gp.objInv.add(new OBJ_GoldInv());
+        gp.objInv.get(1).worldX = 2*gp.tileSize + gp.tileSize/2;
+        gp.objInv.get(1).worldY = (gp.maxWorldRow-1)*gp.tileSize;
 
         //CASTLES
         gp.cas[0] = new CAS_People();

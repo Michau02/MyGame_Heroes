@@ -7,6 +7,7 @@ import object.SuperObject;
 import tile.TileManager;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -29,8 +30,8 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyHandler = new KeyHandler(this);
     public PathFinding pathFinding = new PathFinding(this, tileManager);
     public Player player = new Player(this, mouseHandler);
-    public SuperObject[] obj = new SuperObject[10];
-    public SuperObject[] objInv = new SuperObject[2];
+    public ArrayList<SuperObject> obj = new ArrayList<SuperObject>();
+    public ArrayList<SuperObject> objInv = new ArrayList<SuperObject>();
     public SuperCastle[] cas = new SuperCastle[1];
     public CastlePanel castlePanel = new CastlePanel(this);
     public AssetSetter assetSetter = new AssetSetter(this);
@@ -52,9 +53,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final int castleState = 2;
     public final int battleState = 3;
     public final int settingsState = 4;
+    public final int menuState = 5;
 
     //OTHERS
     int m = 0;
+    public boolean finishedCampaign = false;
+    public boolean playerMoved = false;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -159,9 +163,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         //object
         for (SuperObject superObject : obj) {
-            if (superObject != null)
-                superObject.draw(g2, this);
+            superObject.draw(g2, this);
         }
+        if(obj.size() == 4 && playerMoved)
+            ui.finishedCampaign(g2);
 
         //castles
         for (SuperCastle ca : cas) {
@@ -177,6 +182,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         if(player.inTheTown){//do zmiany poteznie xD
             castlePanel.draw(g2);
+        }
+
+        if(gameState == menuState){
+            //display menu
+            ui.menu(g2);
         }
 
         //ui

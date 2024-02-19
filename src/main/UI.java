@@ -29,6 +29,21 @@ public class UI {
         else if(gp.gameState == gp.settingsState){
             drawSettingsPanel(g2);
         }
+        else if(gp.gameState == gp.menuState){
+            drawSettingsPanel(g2);
+        }
+    }
+    public void finishedCampaign(Graphics2D g2){
+        //drawing
+        g2.setFont(new Font("Arial", Font.PLAIN, 40));
+        g2.setColor(Color.RED);
+        g2.drawString("You won!", 8*gp.tileSize, 8*gp.tileSize);
+        gp.gameState = gp.menuState;
+    }
+    public void menu(Graphics2D g2){
+        //do zmiany ale chciałem sprawdzic tylko czy wgl tu przechodzi
+        g2.setColor(Color.WHITE);
+        g2.drawString("MENU", 5*gp.tileSize, 5*gp.tileSize);
     }
     public void drawResources(Graphics2D g2){
         g2.setColor(new Color(100,75,60,130));
