@@ -35,14 +35,7 @@ public class UI {
                     break;
                 }
             }
-            for(SuperCastle castle : gp.cas){ // tu znajduje tylko lewy gorny rog z jakiegos powodu
-                /*if(castle.worldX/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
-                        (castle.worldX+gp.tileSize)/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
-                        (castle.worldX+2*gp.tileSize)/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
-                        castle.worldX/gp.tileSize == gp.mouseX && (castle.worldY+gp.tileSize)/gp.tileSize == gp.mouseY ||
-                        (castle.worldX+2*gp.tileSize)/gp.tileSize == gp.mouseX && (castle.worldY+gp.tileSize)/gp.tileSize == gp.mouseY ||
-
-                        ){*/
+            for(SuperCastle castle : gp.cas){
                 if(castle.worldX/gp.tileSize == gp.mouseX || (castle.worldX+gp.tileSize)/gp.tileSize == gp.mouseX || (castle.worldX+2*gp.tileSize)/gp.tileSize == gp.mouseX){
                     if(castle.worldY/gp.tileSize == gp.mouseY || (castle.worldY+gp.tileSize)/gp.tileSize == gp.mouseY) {
                         name = castle.name;
