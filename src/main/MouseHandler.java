@@ -14,6 +14,8 @@ public class MouseHandler implements MouseListener {
     public boolean leftButtonReleased;
     public boolean rightButtonReleased;
 
+    public boolean blockedMouseMovement = false;
+
     public MouseHandler(GamePanel gp) {
         this.gp = gp;
     }
@@ -33,6 +35,13 @@ public class MouseHandler implements MouseListener {
             gp.mouseY = (y + gp.player.worldY - gp.player.screenY + gp.player.mapOffsetY) / gp.tileSize;
         }
         else{
+            x = e.getX();
+            y = e.getY();
+
+            if(!blockedMouseMovement){
+                gp.mouseX = (x + gp.player.worldX - gp.player.screenX + gp.player.mapOffsetX) / gp.tileSize;
+                gp.mouseY = (y + gp.player.worldY - gp.player.screenY + gp.player.mapOffsetY) / gp.tileSize;
+            }
             rightButtonPressed = true;
         }
     }

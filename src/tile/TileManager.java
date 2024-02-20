@@ -75,41 +75,53 @@ public class TileManager {
         try{
             //GRASS
             tile[0] = new Tile();
+            tile[0].name = "grass";
             tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/BasicGrass.png")));
 
             tile[1] = new Tile();
+            tile[1].name = "grass";
             tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/BasicGrass_2.png")));
 
             tile[2] = new Tile();
+            tile[2].name = "grass";
             tile[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Bottom.png")));
 
             tile[3] = new Tile();
+            tile[3].name = "grass";
             tile[3].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left.png")));
 
             tile[4] = new Tile();
+            tile[4].name = "grass";
             tile[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right.png")));
 
             tile[5] = new Tile();
+            tile[5].name = "grass";
             tile[5].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Top.png")));
 
             tile[6] = new Tile();
+            tile[6].name = "grass";
             tile[6].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left_Bottom.png")));
 
             tile[7] = new Tile();
+            tile[7].name = "grass";
             tile[7].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left_Top.png")));
 
             tile[8] = new Tile();
+            tile[8].name = "grass";
             tile[8].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right_Bottom.png")));
 
             tile[9] = new Tile();
+            tile[9].name = "grass";
             tile[9].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right_Top.png")));
 
             //WATER
             tile[10] = new Tile();
+            tile[10].name = "water";
             tile[10].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/water/BasicWater.png")));
             tile[10].collision = true;
 
             tile[11] = new Tile();
+            tile[11].name = "water";
             tile[11].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/water/BasicWater_2.png")));
             tile[11].collision = true;
 

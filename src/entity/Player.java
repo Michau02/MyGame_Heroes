@@ -138,9 +138,11 @@ public class Player extends Entity{
                 gp.mouseHandler.leftButtonReleased = false;
             }
             if (gp.mouseHandler.rightButtonPressed) {
+                gp.mouseHandler.blockedMouseMovement = true;
                 //pokaz podglad czegos (np przedmiot, armia itd)
             }
             if (gp.mouseHandler.rightButtonReleased) {
+                gp.mouseHandler.blockedMouseMovement = false;
                 //przestan pokazywac parametry czegos
                 gp.tileManager.finalPathList.clear();
                 isGoingToObject = false;

@@ -1,5 +1,6 @@
 package main;
 
+import castles.SuperCastle;
 import object.SuperObject;
 
 import java.awt.*;
@@ -9,6 +10,8 @@ public class UI {
     GamePanel gp;
     Font arialITALIC_18, italicBOLD_20, italicBOLD_40;
     FontMetrics fontMetrics;
+    static String name;
+    static String type = "null";
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -19,7 +22,36 @@ public class UI {
         fontMetrics = gp.getFontMetrics(italicBOLD_40);
     }
     public void draw(Graphics2D g2){
+        //trzeba jeszcze ustawic czcionke tu i zmienic x, y, width, height w fillRect i drawString w zaleznosci od fontMetrics ustawionej czcionki
         drawResources(g2);
+        if(gp.mouseHandler.rightButtonPressed){
+            g2.setColor(Color.gray);
+            g2.fillRect(gp.mouseX*gp.tileSize - gp.player.worldX + gp.player.screenX - gp.player.mapOffsetX - gp.tileSize/2, gp.mouseY*gp.tileSize - gp.player.worldY + gp.player.screenY - gp.player.mapOffsetY-gp.tileSize, 2*gp.tileSize, gp.tileSize);
+            for(SuperObject object : gp.obj){
+                if(object.worldX/gp.tileSize == gp.mouseX && object.worldY/gp.tileSize == gp.mouseY){
+                    name = object.name;
+                    type = "object";
+                    break;
+                }
+            }
+            for(SuperCastle castle : gp.cas){
+                if(castle.worldX/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
+                        (castle.worldX+1)/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
+                        (castle.worldX+2)/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
+                        castle.worldX/gp.tileSize == gp.mouseX && (castle.worldY+1)/gp.tileSize == gp.mouseY ||
+                        (castle.worldX+2)/gp.tileSize == gp.mouseX && (castle.worldY+1)/gp.tileSize == gp.mouseY){
+                    name = castle.name;
+                    type = "object";
+                    break;
+                }
+            }
+            g2.setColor(Color.BLACK);
+            if(type.equals("object"))
+                g2.drawString(name, gp.mouseX*gp.tileSize - gp.player.worldX + gp.player.screenX - gp.player.mapOffsetX,gp.mouseY*gp.tileSize - gp.player.worldY + gp.player.screenY - gp.player.mapOffsetY - gp.tileSize/3);
+            else{
+                g2.drawString(gp.tileManager.tile[gp.tileManager.mapTileNum[gp.mouseX][gp.mouseY]].name, gp.mouseX*gp.tileSize - gp.player.worldX + gp.player.screenX - gp.player.mapOffsetX,gp.mouseY*gp.tileSize - gp.player.worldY + gp.player.screenY - gp.player.mapOffsetY - gp.tileSize/3);
+            }
+        }
         if(gp.gameState == gp.castleState){
             drawCastlePanel(g2);
         }
@@ -33,6 +65,7 @@ public class UI {
             drawSettingsPanel(g2);
         }
     }
+
     public void finishedCampaign(Graphics2D g2){
         //drawing
         g2.setFont(new Font("Arial", Font.PLAIN, 40));

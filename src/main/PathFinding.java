@@ -146,19 +146,7 @@ public class PathFinding {
             tm.openList.add(node);
         }
     }
-    /*public boolean castleThere(Node node){
-        for(int i = 0; i < gp.cas.length; i++){
-            if(gp.cas[i] != null) {
-                if (((gp.cas[i].worldX / gp.tileSize == node.col || (gp.cas[i].worldX + 1) / gp.tileSize == node.col || (gp.cas[i].worldX + 2) / gp.tileSize == node.col) && gp.cas[i].worldY / gp.tileSize == node.row) ||
-                        ((gp.cas[i].worldX+2) / gp.tileSize == node.col && (gp.cas[i].worldY+1) / gp.tileSize == node.row) ||
-                        (gp.cas[i].worldX / gp.tileSize == node.col && (gp.cas[i].worldY+1) / gp.tileSize == node.row)){
 
-                System.out.println("node.col: " + node.col + ", node.row: " + node.row);
-                System.out.println("gp.cas[0].worldX: " + gp.cas[i].worldX/gp.tileSize + ", gp.cas[0].worldY: " + gp.cas[i].worldY/gp.tileSize + (node.col == gp.player.xLocationOfObjectToRemove) + " " + (node.row == gp.player.yLocationOfObjectToRemove));return true;}
-            }
-        }
-        return false;
-    }*/
     public boolean objectThere(Node node){
         for(int i = 0; i < gp.obj.size(); i++){
             if(gp.obj.get(i) != null) {
@@ -248,7 +236,7 @@ public class PathFinding {
                     //zielony
                     image = greenCross;
                 }
-                travelTime = (int) Math.ceil(cost/gp.player.movementPoints) + 1;
+                travelTime = (int) Math.ceil((double)cost/gp.player.movementPoints) + 1;
                 if(travelTime != 1){
                     g2.setColor(Color.white);
                     g2.drawString(String.valueOf(travelTime), x*gp.tileSize + gp.player.screenX - gp.player.worldX - gp.player.mapOffsetX + gp.tileSize*4/5, (y*gp.tileSize + gp.player.screenY - gp.player.worldY - gp.player.mapOffsetY) + gp.tileSize/6);
