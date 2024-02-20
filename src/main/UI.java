@@ -25,6 +25,7 @@ public class UI {
         //trzeba jeszcze ustawic czcionke tu i zmienic x, y, width, height w fillRect i drawString w zaleznosci od fontMetrics ustawionej czcionki
         drawResources(g2);
         if(gp.mouseHandler.rightButtonPressed){
+            type = "null";
             g2.setColor(Color.gray);
             g2.fillRect(gp.mouseX*gp.tileSize - gp.player.worldX + gp.player.screenX - gp.player.mapOffsetX - gp.tileSize/2, gp.mouseY*gp.tileSize - gp.player.worldY + gp.player.screenY - gp.player.mapOffsetY-gp.tileSize, 2*gp.tileSize, gp.tileSize);
             for(SuperObject object : gp.obj){
@@ -34,7 +35,7 @@ public class UI {
                     break;
                 }
             }
-            for(SuperCastle castle : gp.cas){
+            for(SuperCastle castle : gp.cas){ // tu znajduje tylko lewy gorny rog z jakiegos powodu
                 if(castle.worldX/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
                         (castle.worldX+1)/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
                         (castle.worldX+2)/gp.tileSize == gp.mouseX && castle.worldY/gp.tileSize == gp.mouseY ||
