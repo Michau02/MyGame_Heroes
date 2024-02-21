@@ -91,6 +91,15 @@ public class Player extends Entity{
                 gp.clickCounter = 1;
                 gold += 500;
                 wood += 2;
+                gp.day++;
+                if(gp.day%8 == 0){
+                    gp.day = 1;
+                    gp.week++;
+                    if(gp.week%5 == 0){
+                        gp.week = 1;
+                        gp.month++;
+                    }
+                }
                 gp.keyHandler.endTurnReleased = false;
             }
             if (gp.keyHandler.movePressed) {

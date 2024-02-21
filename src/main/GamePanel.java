@@ -57,8 +57,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     //OTHERS
     int m = 0;
-    public boolean finishedCampaign = false;
+    //public boolean finishedCampaign = false; nie do konca pamietam co tu rozkmienialem
     public boolean playerMoved = false;
+    public int day = 1, week = 1, month = 1;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
