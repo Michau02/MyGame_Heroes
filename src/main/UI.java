@@ -11,7 +11,7 @@ public class UI {
     Font arialITALIC_18, italicBOLD_20, italicBOLD_40;
     FontMetrics fontMetrics, italicBOLD_20Metrics;
     static String name;
-    static String type = "null";
+    static String type = "null", date = "null";
     int italicBOLD_20Width, italicBOLD_20Height;
 
     public UI(GamePanel gp){
@@ -25,7 +25,7 @@ public class UI {
         italicBOLD_20Height = italicBOLD_20Metrics.getAscent();
     }
     public void draw(Graphics2D g2){
-        drawResources(g2);
+        drawInterface(g2);
         if(gp.mouseHandler.rightButtonPressed){
             if((gp.mouseX >= 0 && gp.mouseX <= gp.screenWidth && gp.mouseY >= 0 && gp.mouseY <= gp.screenHeight))
                 drawProperties(g2);
@@ -87,9 +87,23 @@ public class UI {
         g2.setColor(Color.WHITE);
         g2.drawString("MENU", 5*gp.tileSize, 5*gp.tileSize);
     }
+    public void drawInterface(Graphics2D g2){
+        drawResources(g2);
+        drawCalendar(g2);
+    }
+    public void drawCalendar(Graphics2D g2){
+        g2.setFont(italicBOLD_20);
+        date = "Day " + gp.day + ", Week " + gp.week + ", Month " + gp.month;
+
+        g2.setColor(new Color(100,75,60,130));
+        g2.fillRoundRect(gp.screenWidth - italicBOLD_20Metrics.stringWidth(date)*5/4, (gp.maxWorldRow-1)*gp.tileSize, italicBOLD_20Metrics.stringWidth(date)*5/4, gp.tileSize, 45,45);
+
+        g2.setColor(Color.WHITE);
+        g2.drawString(date, gp.screenWidth - italicBOLD_20Metrics.stringWidth(date)*9/8, (gp.maxWorldRow-1)*gp.tileSize + italicBOLD_20Height*3/2);
+    }
     public void drawResources(Graphics2D g2){
         g2.setColor(new Color(100,75,60,130));
-        g2.fillRoundRect(-1, (gp.maxWorldRow-1)*gp.tileSize, 27*gp.tileSize, gp.tileSize, 45,45);
+        g2.fillRoundRect(0, (gp.maxWorldRow-1)*gp.tileSize, gp.screenWidth/2, gp.tileSize, 45,45);
 
         for (SuperObject superObject : gp.objInv) {
             if (superObject != null)

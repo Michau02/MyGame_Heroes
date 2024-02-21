@@ -142,7 +142,7 @@ public class TileManager {
             int screenY = worldY - gp.player.worldY + gp.player.screenY - gp.player.mapOffsetY;
 
             if( worldX + gp.tileSize > gp.player.worldX - gp.player.screenX - gp.player.mapOffsetX &&
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX + gp.player.mapOffsetX &&
+                worldX - 2*gp.tileSize < gp.player.worldX + gp.player.screenX + gp.player.mapOffsetX &&
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY - gp.player.mapOffsetY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY + gp.player.mapOffsetY)
             {
