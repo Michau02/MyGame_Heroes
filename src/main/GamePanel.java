@@ -166,7 +166,7 @@ public class GamePanel extends JPanel implements Runnable {
         for (SuperObject superObject : obj) {
             superObject.draw(g2, this);
         }
-        if(obj.size() == 4 && playerMoved)
+        if(obj.size() == 0 && playerMoved)
             ui.finishedCampaign(g2);
 
         //castles

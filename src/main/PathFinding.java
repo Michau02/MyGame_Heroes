@@ -176,6 +176,7 @@ public class PathFinding {
             }
             x = tm.finalPathList.get(i).col;
             y = tm.finalPathList.get(i).row;
+
             if(i != tm.finalPathList.size()-1){ // strzalki
                 // ustalenie kierunku strzalki
                 if(tm.finalPathList.get(i).col < tm.finalPathList.get(i+1).col) {
@@ -236,8 +237,9 @@ public class PathFinding {
                     //zielony
                     image = greenCross;
                 }
-                travelTime = (int) Math.ceil((double)cost/gp.player.movementPoints) + 1;
-                if(travelTime != 1){
+                travelTime = (int) (Math.ceil((double)cost/gp.player.movementPoints)) + 1;
+                System.out.println(travelTime);
+                if(travelTime != 1 && travelTime != 0){
                     g2.setColor(Color.white);
                     g2.drawString(String.valueOf(travelTime), x*gp.tileSize + gp.player.screenX - gp.player.worldX - gp.player.mapOffsetX + gp.tileSize*4/5, (y*gp.tileSize + gp.player.screenY - gp.player.worldY - gp.player.mapOffsetY) + gp.tileSize/6);
                 }

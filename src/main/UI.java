@@ -40,7 +40,7 @@ public class UI {
             drawSettingsPanel(g2);
         }
         else if(gp.gameState == gp.menuState){
-            drawSettingsPanel(g2);
+            drawMenu(g2);
         }
     }
     public void drawProperties(Graphics2D g2){
@@ -131,6 +131,9 @@ public class UI {
         g2.drawString(pause, gp.screenWidth/2 - fontMetrics.stringWidth(pause)/2, (gp.screenHeight - fontMetrics.getAscent())/2);
     }
     public void drawSettingsPanel(Graphics2D g2){
+
+    }
+    public void drawMenu(Graphics2D g2){
 
     }
 }
