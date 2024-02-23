@@ -27,6 +27,7 @@ public class PathFinding {
 
     public void loadImages(){
         try{
+            //green
             greenLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenLeft.png")));
             greenUpLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenUpLeft.png")));
             greenUpRight = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenUpRight.png")));
@@ -37,6 +38,16 @@ public class PathFinding {
             greenUp = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenUp.png")));
             greenCross = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/greenCross.png")));
 
+            //red
+            redLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redLeft.png")));
+            redUpLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redUpLeft.png")));
+            redUpRight = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redUpRight.png")));
+            redRight = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redRight.png")));
+            redDownRight = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redDownRight.png")));
+            redDownLeft = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redDownLeft.png")));
+            redDown = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redDown.png")));
+            redUp = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redUp.png")));
+            redCross = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/path/redCross.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -195,8 +206,32 @@ public class PathFinding {
                 //ustawienie odpowiedniego image
                 if(cost > gp.player.remainingMovementPoints){
                     //czerwone strzalki i X -> na razie sa zielone ale jak dorysuje to sie to zmieni
-                    image = greenUp;
-
+                    switch(dest){
+                        case "u":
+                            image = redUp;
+                            break;
+                        case "r":
+                            image = redRight;
+                            break;
+                        case "d":
+                            image = redDown;
+                            break;
+                        case "l":
+                            image = redLeft;
+                            break;
+                        case "ul":
+                            image = redUpLeft;
+                            break;
+                        case "dl":
+                            image = redDownLeft;
+                            break;
+                        case "ur":
+                            image = redUpRight;
+                            break;
+                        case "dr":
+                            image = redDownRight;
+                            break;
+                    }
                 }
                 else{
                     switch(dest){
@@ -225,13 +260,12 @@ public class PathFinding {
                             image = greenDownRight;
                             break;
                     }
-
                 }
             }
            else{ //krzyzyk
-                if(cost >= gp.player.remainingMovementPoints){
+                if(cost > gp.player.remainingMovementPoints){
                     //czerwony
-                    image = greenCross;
+                    image = redCross;
                 }
                 else{
                     //zielony
@@ -240,14 +274,13 @@ public class PathFinding {
                 if(cost > gp.player.remainingMovementPoints)
                     cost -= gp.player.remainingMovementPoints;
                 else cost = 0;
-                System.out.println("travelTime: " + travelTime + ", cost: " + cost);
                 travelTime = (int)Math.ceil((double)cost/gp.player.movementPoints) + 1;
                 if(travelTime != 1){
                     g2.setColor(Color.white);
                     g2.drawString(String.valueOf(travelTime), x*gp.tileSize + gp.player.screenX - gp.player.worldX - gp.player.mapOffsetX + gp.tileSize*4/5, (y*gp.tileSize + gp.player.screenY - gp.player.worldY - gp.player.mapOffsetY) + gp.tileSize/6);
                 }
             }
-            g2.drawImage(image, (x*gp.tileSize + gp.player.screenX - gp.player.worldX - gp.player.mapOffsetX) + gp.tileSize/3, (y*gp.tileSize + gp.player.screenY - gp.player.worldY - gp.player.mapOffsetY) + gp.tileSize/3, gp.tileSize/3, gp.tileSize/3, null);
+            g2.drawImage(image, (x*gp.tileSize + gp.player.screenX - gp.player.worldX - gp.player.mapOffsetX) + gp.tileSize/4, (y*gp.tileSize + gp.player.screenY - gp.player.worldY - gp.player.mapOffsetY) + gp.tileSize/4, gp.tileSize/2, gp.tileSize/2, null);
         }
     }
 
