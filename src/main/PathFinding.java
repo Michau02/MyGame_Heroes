@@ -169,7 +169,7 @@ public class PathFinding {
     public void draw(Graphics2D g2){
         int x,y;
         BufferedImage image = null;
-        cost = 0;
+        cost = 1;
         for(int i = 0; i < tm.finalPathList.size(); i++){
             if(i != 0){
                 cost += Math.abs(tm.finalPathList.get(i).col - tm.finalPathList.get(i-1).col) + Math.abs(tm.finalPathList.get(i).row - tm.finalPathList.get(i-1).row);
@@ -193,7 +193,7 @@ public class PathFinding {
                 else dest = "u"; // up
 
                 //ustawienie odpowiedniego image
-                if(cost >= gp.player.remainingMovementPoints){
+                if(cost > gp.player.remainingMovementPoints){
                     //czerwone strzalki i X -> na razie sa zielone ale jak dorysuje to sie to zmieni
                     image = greenUp;
 
@@ -237,9 +237,12 @@ public class PathFinding {
                     //zielony
                     image = greenCross;
                 }
-                travelTime = (int) (Math.ceil((double)cost/gp.player.movementPoints)) + 1;
-                System.out.println(travelTime);
-                if(travelTime != 1 && travelTime != 0){
+                if(cost > gp.player.remainingMovementPoints)
+                    cost -= gp.player.remainingMovementPoints;
+                else cost = 0;
+                System.out.println("travelTime: " + travelTime + ", cost: " + cost);
+                travelTime = (int)Math.ceil((double)cost/gp.player.movementPoints) + 1;
+                if(travelTime != 1){
                     g2.setColor(Color.white);
                     g2.drawString(String.valueOf(travelTime), x*gp.tileSize + gp.player.screenX - gp.player.worldX - gp.player.mapOffsetX + gp.tileSize*4/5, (y*gp.tileSize + gp.player.screenY - gp.player.worldY - gp.player.mapOffsetY) + gp.tileSize/6);
                 }

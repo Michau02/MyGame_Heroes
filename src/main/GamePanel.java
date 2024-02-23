@@ -179,7 +179,8 @@ public class GamePanel extends JPanel implements Runnable {
         player.draw(g2);
 
         //path
-        pathFinding.draw(g2);
+        if(tileManager.finalPathList.size() != 0)
+            pathFinding.draw(g2);
 
         if(player.inTheTown){//do zmiany poteznie xD
             castlePanel.draw(g2);
