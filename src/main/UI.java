@@ -90,6 +90,12 @@ public class UI {
     public void drawInterface(Graphics2D g2){
         drawResources(g2);
         drawCalendar(g2);
+        drawMovementPoints(g2);
+    }
+    public void drawMovementPoints(Graphics2D g2){
+        g2.setColor(Color.white);
+        g2.setFont(arialITALIC_18);
+        g2.drawString("Remaining movement points: " + gp.player.remainingMovementPoints +  "/" + gp.player.movementPoints, gp.tileSize/8, (int)(((double)gp.maxWorldRow-1.25)*gp.tileSize));
     }
     public void drawCalendar(Graphics2D g2){
         g2.setFont(italicBOLD_20);
