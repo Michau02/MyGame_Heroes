@@ -22,6 +22,13 @@ public class CastlePanel {
         g2.setColor(Color.GRAY);
         g2.fillRoundRect(0, 0, width, height, curveAngle, curveAngle);
 
+        /* // wszystko docelowo nie tu wiec nom
+        for(Building building : gp.cas[0].buildings){
+            g2.setColor(Color.white);
+            g2.drawString(building.name, 50,50);
+        }
+         */
+
         //siatka na budynki
         //x od 1 do 4 i y od height/2 + 1/9height do 1/2height + 1/9 height + 1/3height
         //x od 6 do 9 i y od  1/2height + 2/9 height + 1/3height do height - 1.9height

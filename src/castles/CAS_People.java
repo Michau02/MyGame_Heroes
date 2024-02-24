@@ -15,5 +15,7 @@ public class CAS_People extends SuperCastle{
                 IOException e){
             e.printStackTrace();
         }
+
+        loadBuildings();
     }
 }

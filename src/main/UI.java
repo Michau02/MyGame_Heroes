@@ -1,5 +1,7 @@
 package main;
 
+import castles.Building;
+import castles.CAS_People;
 import castles.SuperCastle;
 import object.SuperObject;
 
@@ -128,7 +130,7 @@ public class UI {
         g2.drawString(s, gp.screenWidth - g2.getFontMetrics().stringWidth(s), g2.getFontMetrics().getAscent());
     }
     public void drawCastlePanel(Graphics2D g2){
-
+        //zawartosc z CastlePanel powinna być tu i powinno sie usunac CastlePanel moim zdaniem ale to co jest tu na razie sie nie wyswietla a nie mam teraz czasu sie w to zaglebic
     }
     public void drawPausePanel(Graphics2D g2){
         g2.setFont(italicBOLD_40);
