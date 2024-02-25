@@ -74,14 +74,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setUpGame(){
         assetSetter.setObject();
+        player.countIncome();
         gameState = playState;
     }
 
     public void startGameThread(){
         if(m == 0){
-            for(int i = 0; i < cas.length; i++){
-                if(cas[i] != null){
-                    initialize(cas[i].worldX/tileSize, cas[i].worldY/tileSize);
+            for (SuperCastle ca : cas) {
+                if (ca != null) {
+                    initialize(ca.worldX / tileSize, ca.worldY / tileSize);
                 }
             }
             m++;
@@ -143,17 +144,6 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == playState){
             player.update();
         }
-        else if(gameState == pauseState){
-        }
-        else if(gameState == castleState){
-            //nothing for now
-        }
-        else if(gameState == battleState){
-            //nothing for now
-        }
-        else if(gameState == settingsState){
-        }
-
     }
     public void paintComponent(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
@@ -166,8 +156,6 @@ public class GamePanel extends JPanel implements Runnable {
         for (SuperObject superObject : obj) {
             superObject.draw(g2, this);
         }
-        if(obj.size() == 0 && playerMoved)
-            ui.finishedCampaign(g2);
 
         //castles
         for (SuperCastle ca : cas) {
@@ -181,15 +169,6 @@ public class GamePanel extends JPanel implements Runnable {
         //path
         if(tileManager.finalPathList.size() != 0)
             pathFinding.draw(g2);
-
-        if(player.inTheTown){//do zmiany poteznie xD
-            castlePanel.draw(g2);
-        }
-
-        if(gameState == menuState){
-            //display menu
-            ui.menu(g2);
-        }
 
         //ui
         ui.draw(g2);

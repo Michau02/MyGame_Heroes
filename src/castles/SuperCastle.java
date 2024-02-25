@@ -2,12 +2,9 @@ package castles;
 
 import main.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class SuperCastle {
 
@@ -15,16 +12,11 @@ public class SuperCastle {
     public String name;
     public int worldX, worldY;
     public ArrayList<Building> buildings = new ArrayList<>();
+    public int income = 500;
 
     public void loadBuildings(){
-        try{
-            Building building = new Building("strzelnica");
-            building.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/buildings/strzelnica.png")));
-            buildings.add(building);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        buildings.add(new Building("strzelnica"));
+        buildings.add(new Building("strzelnica"));
     }
 
     public void draw(Graphics2D g2, GamePanel gp) {

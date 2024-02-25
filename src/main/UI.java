@@ -1,7 +1,5 @@
 package main;
 
-import castles.Building;
-import castles.CAS_People;
 import castles.SuperCastle;
 import object.SuperObject;
 
@@ -13,8 +11,11 @@ public class UI {
     Font arialITALIC_18, italicBOLD_20, italicBOLD_40;
     FontMetrics fontMetrics, italicBOLD_20Metrics;
     static String name;
+    static String noResources = "";
     static String type = "null", date = "null";
     int italicBOLD_20Width, italicBOLD_20Height;
+    int clicks = 0;
+    Color buildingBought;
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -25,15 +26,15 @@ public class UI {
         fontMetrics = gp.getFontMetrics(italicBOLD_40);
         italicBOLD_20Metrics = gp.getFontMetrics(italicBOLD_20);
         italicBOLD_20Height = italicBOLD_20Metrics.getAscent();
+        buildingBought = new Color(255, 215, 0, 150);
     }
     public void draw(Graphics2D g2){
         drawInterface(g2);
+        if(gp.obj.size() == 0 && gp.playerMoved)
+            finishedCampaign(g2);
         if(gp.mouseHandler.rightButtonPressed){
             if((gp.mouseX >= 0 && gp.mouseX <= gp.screenWidth && gp.mouseY >= 0 && gp.mouseY <= gp.screenHeight))
                 drawProperties(g2);
-        }
-        if(gp.gameState == gp.castleState){
-            drawCastlePanel(g2);
         }
         else if(gp.gameState == gp.pauseState){
             drawPausePanel(g2);
@@ -43,6 +44,9 @@ public class UI {
         }
         else if(gp.gameState == gp.menuState){
             drawMenu(g2);
+        }
+        else if(gp.player.inTheTown != -1){
+            drawCastlePanel(g2);
         }
     }
     public void drawProperties(Graphics2D g2){
@@ -130,8 +134,107 @@ public class UI {
         g2.drawString(s, gp.screenWidth - g2.getFontMetrics().stringWidth(s), g2.getFontMetrics().getAscent());
     }
     public void drawCastlePanel(Graphics2D g2){
-        //zawartosc z CastlePanel powinna być tu i powinno sie usunac CastlePanel moim zdaniem ale to co jest tu na razie sie nie wyswietla a nie mam teraz czasu sie w to zaglebic
+
+        switch(gp.cas[gp.player.inTheTown].name){
+            case "peopleTown":
+                //panel and displaying top part of panel
+                g2.setColor(Color.GRAY);
+                g2.fillRoundRect(5, gp.tileSize, gp.castlePanel.width, gp.castlePanel.height, gp.castlePanel.curveAngle, gp.castlePanel.curveAngle);
+                g2.setColor(Color.BLUE);
+                g2.setFont(italicBOLD_40);
+                g2.drawString("People town", 5+gp.castlePanel.width/2 - fontMetrics.stringWidth("People town")/2, gp.tileSize + fontMetrics.getAscent() +(int)(fontMetrics.getAscent() * 0.5));
+                g2.setColor(Color.darkGray);
+                g2.drawLine(5, gp.tileSize + 2 * fontMetrics.getAscent(), 5+gp.castlePanel.width,gp.tileSize + 2 * fontMetrics.getAscent());
+
+                //middle part - buildings
+                g2.setColor(Color.BLACK);
+                g2.drawString("Buildings", 5+gp.castlePanel.width/2 - fontMetrics.stringWidth("Buildings")/2, gp.tileSize + 4 * fontMetrics.getAscent());
+
+                g2.drawImage(gp.cas[gp.player.inTheTown].buildings.get(0). image, (gp.castlePanel.width-gp.tileSize*6)/2, gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4,null);
+                g2.drawImage(gp.cas[gp.player.inTheTown].buildings.get(0). image, (gp.castlePanel.width-gp.tileSize*6)/2, 6*gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4,null);
+
+                g2.setColor(buildingBought);
+                if(gp.cas[gp.player.inTheTown].buildings.get(0).buildAlready)
+                    g2.fillRect((gp.castlePanel.width-gp.tileSize*6)/2, gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4);
+                else if(gp.cas[gp.player.inTheTown].buildings.get(1).buildAlready)
+                    g2.fillRect((gp.castlePanel.width-gp.tileSize*6)/2, 6*gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4);
+
+                //bottom part - informations about town
+                g2.setColor(Color.darkGray);
+                g2.drawLine(5, 11*gp.tileSize + 5 * fontMetrics.getAscent(), 5+gp.castlePanel.width, 11*gp.tileSize + 5 * fontMetrics.getAscent());
+                g2.setColor(Color.black);
+                g2.drawString("Town specification", 5+gp.castlePanel.width/2 - fontMetrics.stringWidth("Town specification")/2, 12*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+
+                g2.setFont(italicBOLD_20);
+                g2.drawString("Income: ", gp.tileSize, 14*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+                g2.drawString("- " + gp.player.goldPerTurn + " gold per turn", gp.tileSize, 15*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+                g2.drawString("- " + gp.player.woodPerTurn + " wood per turn", gp.tileSize, 16*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+
+                g2.drawString("Buildings build: ", gp.tileSize, 18*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+                for(int i = 0; i < gp.cas[gp.player.inTheTown].buildings.size(); i++){
+                    if(gp.cas[gp.player.inTheTown].buildings.get(i).buildAlready)
+                        g2.drawString("- " +  gp.cas[gp.player.inTheTown].buildings.get(i), gp.tileSize, (18+i)*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+                    i++;
+                }
+
+                if(gp.mouseHandler.leftButtonReleased && (gp.mouseHandler.x >= (gp.castlePanel.width-gp.tileSize*6)/2 && gp.mouseHandler.x <= gp.tileSize*6 + (gp.castlePanel.width-gp.tileSize*6)/2 &&
+                        gp.mouseHandler.y >= gp.tileSize + 5 * fontMetrics.getAscent() && gp.mouseHandler.y <= gp.tileSize + 5 * fontMetrics.getAscent()+4*gp.tileSize)){
+                    clicks = clicks == -1 ? 0 : 1;
+
+                    if(clicks == 1 && !gp.cas[gp.player.inTheTown].buildings.get(0).buildAlready){
+                        askForConfirmation(g2, 0);
+                    }
+                    else if(clicks == 1 && gp.cas[gp.player.inTheTown].buildings.get(0).buildAlready){
+                        g2.fillRoundRect(gp.screenWidth/2-3*gp.tileSize, gp.screenHeight-2*gp.tileSize,6*gp.tileSize,4*gp.tileSize, 45, 45);
+                        g2.setColor(Color.black);
+                        g2.setFont(italicBOLD_20);
+                        g2.drawString("Building is already built.", gp.screenWidth/2-3*gp.tileSize + 3*gp.tileSize - italicBOLD_20Width/2,gp.screenHeight-2*gp.tileSize + 2*gp.tileSize - italicBOLD_20Height/2);
+                    }
+                }
+                else if(gp.mouseHandler.leftButtonReleased && (gp.mouseHandler.gp.mouseHandler.x >= (gp.castlePanel.width-gp.tileSize*6)/2 && gp.mouseHandler.gp.mouseHandler.x <= gp.tileSize*6 + (gp.castlePanel.width-gp.tileSize*6)/2 &&
+                        gp.mouseHandler.y >= 6*gp.tileSize + 5 * fontMetrics.getAscent() && gp.mouseHandler.gp.mouseHandler.y <= gp.tileSize + 5 * fontMetrics.getAscent()+4*gp.tileSize)){
+                    System.out.println("building 1");
+            }
+                else{
+                    clicks = 0;
+                }
+
+
+                g2.drawString("- " + gp.player.woodPerTurn + " wood per turn", gp.tileSize, 16*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+
+                break;
+            case "inferno":
+                break;
+        }
+
     }
+    public void askForConfirmation(Graphics2D g2, int num){
+        g2.setColor(Color.gray);
+        g2.fillRoundRect(gp.screenWidth/2-5*gp.tileSize, gp.screenHeight/2-2*gp.tileSize,10*gp.tileSize,4*gp.tileSize, 45, 45);
+        g2.setColor(Color.black);
+        g2.drawRoundRect(gp.screenWidth/2-5*gp.tileSize, gp.screenHeight/2-2*gp.tileSize,10*gp.tileSize,4*gp.tileSize, 45, 45);
+        g2.setFont(italicBOLD_20);
+        g2.drawString("Are you sure you want to build this building?", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("Are you sure you want to build this building?")) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize - italicBOLD_20Height/2);
+        g2.drawString("If so - press enter, otherwise - press escape.", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("If so - press enter, otherwise - press escape.")) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize + italicBOLD_20Height/2);
+        g2.drawString(noResources, gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth(noResources)) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize + italicBOLD_20Height*3/2);
+
+        if(gp.keyHandler.escapePressed) {
+            clicks = 0;
+            noResources = "";
+        }
+        else if(gp.keyHandler.enterPressed){
+            if(gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold") <= gp.player.gold && gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood") <= gp.player.wood ){
+                gp.cas[gp.player.inTheTown].buildings.get(num).buildAlready = true;
+                gp.player.gold -= gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold");
+                gp.player.wood -= gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood");
+                clicks = 0;
+            }
+            else{
+                noResources = "You don't have enough resources to build this building";
+            }
+        }
+    }
+
     public void drawPausePanel(Graphics2D g2){
         g2.setFont(italicBOLD_40);
         g2.setColor(Color.WHITE);
