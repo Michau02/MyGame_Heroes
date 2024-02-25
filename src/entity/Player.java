@@ -1,5 +1,6 @@
 package entity;
 
+import castles.SuperCastle;
 import main.GamePanel;
 import main.MouseHandler;
 
@@ -7,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Entity{
@@ -16,14 +18,15 @@ public class Player extends Entity{
     public int indexOfObjectToRemove, xLocationOfObjectToRemove, yLocationOfObjectToRemove;
     public boolean isGoingToObject = false;
     boolean pickedUpAnObject;
-    public boolean inTheTown = false;
+    public int inTheTown = -1;
     int pickedUpAnObjectCounter = 0;
     String pickedUpObjectsName, showPickedUpObjectMessage;
     int showPickedUpObjectX, showPickedUpObjectY;
     int moveMapSpeed = 3; //scale given by player to calculate speed of moving map -> speed * moveMapSpeed;
     public int mapOffsetY = 0, mapOffsetX = 0;
+    public ArrayList <SuperCastle> playersCastles = new ArrayList<>();
 
-    public int wood = 0, gold = 0;
+    public int wood = 0, gold = 0, woodPerTurn = 0, goldPerTurn = 0;
 
     public int screenX;
     public int screenY;
@@ -37,6 +40,11 @@ public class Player extends Entity{
 
         setDefaultValues();
         getPlayerImage();
+    }
+    public void countIncome(){
+        for(SuperCastle castle : playersCastles){
+            goldPerTurn += castle.income;
+        }
     }
     public void setDefaultValues(){
         worldX = 7*gp.tileSize;
@@ -71,7 +79,7 @@ public class Player extends Entity{
 
     public void update() {
         isPlayerInTheTown(worldX/gp.tileSize, worldY/gp.tileSize);
-        if(gp.keyHandler.escapePressed && inTheTown) inTheTown = false;
+        if(gp.keyHandler.escapePressed && inTheTown != -1) inTheTown = -1;
 
         if(gp.mouseMotionHandler.moveUp || gp.keyHandler.upPressed)
             mapOffsetY -= speed*moveMapSpeed;
@@ -89,8 +97,8 @@ public class Player extends Entity{
             if (gp.keyHandler.endTurnReleased) {
                 remainingMovementPoints = movementPoints;
                 gp.clickCounter = 1;
-                gold += 500;
-                wood += 2;
+                gold += goldPerTurn;
+                wood += woodPerTurn;
                 gp.day++;
                 if(gp.day%8 == 0){
                     gp.day = 1;
@@ -148,7 +156,6 @@ public class Player extends Entity{
             }
             if (gp.mouseHandler.rightButtonPressed) {
                 gp.mouseHandler.blockedMouseMovement = true;
-                //pokaz podglad czegos (np przedmiot, armia itd)
             }
             if (gp.mouseHandler.rightButtonReleased) {
                 gp.mouseHandler.blockedMouseMovement = false;
@@ -163,11 +170,11 @@ public class Player extends Entity{
     public void isPlayerInTheTown(int playersX, int playersY){
         for(int i = 0; i < gp.cas.length; i++){
             if(gp.cas[i] != null && (gp.cas[i].worldX+2)/gp.tileSize == playersX-1 && (gp.cas[i].worldY+2)/gp.tileSize == playersY-1){
-                inTheTown = true;
+                inTheTown = i;
                 return;
             }
         }
-        inTheTown = false;
+        inTheTown = -1;
     }
     public boolean goingToObject(int destinationX, int destinationY){
         for(int i = 0; i < gp.obj.size(); i++){

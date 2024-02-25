@@ -48,5 +48,6 @@ public class AssetSetter {
         gp.cas[0] = new CAS_People();
         gp.cas[0].worldX = 6*gp.tileSize;
         gp.cas[0].worldY = 8*gp.tileSize;
+        gp.player.playersCastles.add(gp.cas[0]);
     }
 }

@@ -7,7 +7,7 @@ public class KeyHandler implements KeyListener {
 
     GamePanel gp;
     public boolean  upPressed= false, leftPressed= false, rightPressed= false, downPressed= false, escapePressed = false,
-                    endTurnPressed = false, endTurnReleased = false, movePressed = false, yKeyPressed = false;
+                    endTurnPressed = false, endTurnReleased = false, movePressed = false, yKeyPressed = false, enterPressed = false;
 
     public KeyHandler(GamePanel gp){
         this.gp = gp;
@@ -47,6 +47,9 @@ public class KeyHandler implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             escapePressed = true;
         }
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            enterPressed = true;
+        }
     }
 
     @Override
@@ -76,16 +79,23 @@ public class KeyHandler implements KeyListener {
         }
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             escapePressed = false;
-            if (gp.gameState == gp.playState)
-                gp.gameState = gp.settingsState;
-            else if (gp.gameState == gp.settingsState)
-                gp.gameState = gp.playState;
+            if(gp.player.inTheTown == -1){
+                if (gp.gameState == gp.playState)
+                    gp.gameState = gp.settingsState;
+                else if (gp.gameState == gp.settingsState)
+                    gp.gameState = gp.playState;
+            }
+
         }
         if(e.getKeyCode() == KeyEvent.VK_P){
             if(gp.gameState == gp.playState)
                 gp.gameState = gp.pauseState;
             else if (gp.gameState == gp.pauseState)
                 gp.gameState = gp.playState;
+
+        }
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            enterPressed = false;
         }
     }
 }
