@@ -16,7 +16,7 @@ public class SuperCastle {
 
     public void loadBuildings(){
         buildings.add(new Building("strzelnica"));
-        buildings.add(new Building("strzelnica"));
+        buildings.add(new Building("stajnia"));
     }
 
     public void draw(Graphics2D g2, GamePanel gp) {

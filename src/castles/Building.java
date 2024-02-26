@@ -3,7 +3,6 @@ package castles;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -15,9 +14,13 @@ public class Building {
             switch(name){
                 case "strzelnica":
                     image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/buildings/strzelnica.png")));
-                    buildingCost.put("gold", 3000);
-                    buildingCost.put("wood", 10);
+                    buildingCost.put("gold", 1000);
+                    buildingCost.put("wood", 5);
                     break;
+                case "stajnia":
+                    image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/buildings/stajnia.png")));
+                    buildingCost.put("gold", 4000);
+                    buildingCost.put("wood", 20);
             }
         }catch (IOException e){
             e.printStackTrace();

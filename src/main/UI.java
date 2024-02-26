@@ -173,7 +173,7 @@ public class UI {
                 g2.drawString("Buildings build: ", gp.tileSize, 18*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
                 for(int i = 0; i < gp.cas[gp.player.inTheTown].buildings.size(); i++){
                     if(gp.cas[gp.player.inTheTown].buildings.get(i).buildAlready)
-                        g2.drawString("- " +  gp.cas[gp.player.inTheTown].buildings.get(i), gp.tileSize, (18+i)*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+                        g2.drawString("- " +  gp.cas[gp.player.inTheTown].buildings.get(i), gp.tileSize, (19+i)*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
                     i++;
                 }
 
@@ -214,9 +214,11 @@ public class UI {
         g2.setColor(Color.black);
         g2.drawRoundRect(gp.screenWidth/2-5*gp.tileSize, gp.screenHeight/2-2*gp.tileSize,10*gp.tileSize,4*gp.tileSize, 45, 45);
         g2.setFont(italicBOLD_20);
-        g2.drawString("Are you sure you want to build this building?", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("Are you sure you want to build this building?")) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize - italicBOLD_20Height/2);
-        g2.drawString("If so - press enter, otherwise - press escape.", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("If so - press enter, otherwise - press escape.")) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize + italicBOLD_20Height/2);
-        g2.drawString(noResources, gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth(noResources)) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize + italicBOLD_20Height*3/2);
+        g2.drawString("Are you sure you want to build this building?", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("Are you sure you want to build this building?")) / 2,gp.screenHeight/2-2*gp.tileSize + gp.tileSize - italicBOLD_20Height/2);
+        g2.drawString("If so - press enter, otherwise - press escape.", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("If so - press enter, otherwise - press escape.")) / 2,gp.screenHeight/2-2*gp.tileSize + gp.tileSize + italicBOLD_20Height/2);
+        g2.drawString("Cost: " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold") + " gold and " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood") + " wood", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("Cost: " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold") + " gold and " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood") + " wood")) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize + italicBOLD_20Height/2);
+        g2.setColor(Color.red);
+        g2.drawString(noResources, gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth(noResources)) / 2,gp.screenHeight/2-2*gp.tileSize + 3*gp.tileSize + italicBOLD_20Height*3/2);
 
         if(gp.keyHandler.escapePressed) {
             clicks = 0;
@@ -230,8 +232,9 @@ public class UI {
                 clicks = 0;
             }
             else{
-                noResources = "You don't have enough resources to build this building";
+                noResources = "You don't have enough resources";
             }
+            gp.keyHandler.enterPressed = false;
         }
     }
 
