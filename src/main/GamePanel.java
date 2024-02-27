@@ -141,9 +141,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update(){
-        if(gameState == playState){
+        if(gameState == playState || gameState == castleState){
             player.update();
         }
+        System.out.println("Gamestate: " + gameState);
     }
     public void paintComponent(Graphics g){
         Graphics2D g2 = (Graphics2D) g;

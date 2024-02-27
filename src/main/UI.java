@@ -14,7 +14,7 @@ public class UI {
     static String noResources = "";
     static String type = "null", date = "null";
     int italicBOLD_20Width, italicBOLD_20Height;
-    int clicks = 0;
+    public int clicks = 0;
     Color buildingBought;
 
     public UI(GamePanel gp){
@@ -36,7 +36,7 @@ public class UI {
             if((gp.mouseX >= 0 && gp.mouseX <= gp.screenWidth && gp.mouseY >= 0 && gp.mouseY <= gp.screenHeight))
                 drawProperties(g2);
         }
-        else if(gp.gameState == gp.pauseState){
+        if(gp.gameState == gp.pauseState){
             drawPausePanel(g2);
         }
         else if(gp.gameState == gp.settingsState){
@@ -45,7 +45,7 @@ public class UI {
         else if(gp.gameState == gp.menuState){
             drawMenu(g2);
         }
-        else if(gp.player.inTheTown != -1){
+        else if(gp.gameState == gp.castleState){
             drawCastlePanel(g2);
         }
     }
@@ -150,14 +150,18 @@ public class UI {
                 g2.setColor(Color.BLACK);
                 g2.drawString("Buildings", 5+gp.castlePanel.width/2 - fontMetrics.stringWidth("Buildings")/2, gp.tileSize + 4 * fontMetrics.getAscent());
 
-                g2.drawImage(gp.cas[gp.player.inTheTown].buildings.get(0). image, (gp.castlePanel.width-gp.tileSize*6)/2, gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4,null);
-                g2.drawImage(gp.cas[gp.player.inTheTown].buildings.get(0). image, (gp.castlePanel.width-gp.tileSize*6)/2, 6*gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4,null);
+                if(gp.cas[gp.player.inTheTown].buildings.size() != 0){
+                    g2.drawImage(gp.cas[gp.player.inTheTown].buildings.get(0). image, (gp.castlePanel.width-gp.tileSize*6)/2, gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4,null);
+                    g2.drawImage(gp.cas[gp.player.inTheTown].buildings.get(1). image, (gp.castlePanel.width-gp.tileSize*6)/2, 6*gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4,null);
+                }
 
                 g2.setColor(buildingBought);
-                if(gp.cas[gp.player.inTheTown].buildings.get(0).buildAlready)
-                    g2.fillRect((gp.castlePanel.width-gp.tileSize*6)/2, gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4);
-                else if(gp.cas[gp.player.inTheTown].buildings.get(1).buildAlready)
-                    g2.fillRect((gp.castlePanel.width-gp.tileSize*6)/2, 6*gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4);
+                if(gp.cas[gp.player.inTheTown].buildings.size() != 0){
+                    if(gp.cas[gp.player.inTheTown].buildings.get(0).buildAlready)
+                        g2.fillRect((gp.castlePanel.width-gp.tileSize*6)/2, gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4);
+                    else if(gp.cas[gp.player.inTheTown].buildings.get(1).buildAlready)
+                        g2.fillRect((gp.castlePanel.width-gp.tileSize*6)/2, 6*gp.tileSize + 5 * fontMetrics.getAscent(),gp.tileSize*6, gp.tileSize*4);
+                }
 
                 //bottom part - informations about town
                 g2.setColor(Color.darkGray);
@@ -194,12 +198,12 @@ public class UI {
                 else if(gp.mouseHandler.leftButtonReleased && (gp.mouseHandler.gp.mouseHandler.x >= (gp.castlePanel.width-gp.tileSize*6)/2 && gp.mouseHandler.gp.mouseHandler.x <= gp.tileSize*6 + (gp.castlePanel.width-gp.tileSize*6)/2 &&
                         gp.mouseHandler.y >= 6*gp.tileSize + 5 * fontMetrics.getAscent() && gp.mouseHandler.gp.mouseHandler.y <= gp.tileSize + 5 * fontMetrics.getAscent()+4*gp.tileSize)){
                     System.out.println("building 1");
-            }
+                }
                 else{
-                    clicks = 0;
+                    clicks = -1;
                 }
 
-
+                g2.setColor(Color.darkGray);
                 g2.drawString("- " + gp.player.woodPerTurn + " wood per turn", gp.tileSize, 16*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
 
                 break;
@@ -215,26 +219,25 @@ public class UI {
         g2.drawRoundRect(gp.screenWidth/2-5*gp.tileSize, gp.screenHeight/2-2*gp.tileSize,10*gp.tileSize,4*gp.tileSize, 45, 45);
         g2.setFont(italicBOLD_20);
         g2.drawString("Are you sure you want to build this building?", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("Are you sure you want to build this building?")) / 2,gp.screenHeight/2-2*gp.tileSize + gp.tileSize - italicBOLD_20Height/2);
-        g2.drawString("If so - press enter, otherwise - press escape.", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("If so - press enter, otherwise - press escape.")) / 2,gp.screenHeight/2-2*gp.tileSize + gp.tileSize + italicBOLD_20Height/2);
-        g2.drawString("Cost: " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold") + " gold and " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood") + " wood", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("Cost: " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold") + " gold and " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood") + " wood")) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize + italicBOLD_20Height/2);
+        g2.drawString("Cost: " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold") + " gold and " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood") + " wood", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("Cost: " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold") + " gold and " + gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood") + " wood")) / 2,gp.screenHeight/2-2*gp.tileSize + gp.tileSize + italicBOLD_20Height*3/2);
         g2.setColor(Color.red);
-        g2.drawString(noResources, gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth(noResources)) / 2,gp.screenHeight/2-2*gp.tileSize + 3*gp.tileSize + italicBOLD_20Height*3/2);
+        g2.drawString(noResources, gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth(noResources)) / 2,gp.screenHeight/2-2*gp.tileSize + 2*gp.tileSize + italicBOLD_20Height*3/2);
 
         if(gp.keyHandler.escapePressed) {
-            clicks = 0;
+            clicks = -1;
             noResources = "";
+            gp.keyHandler.escapePressed = false;
         }
         else if(gp.keyHandler.enterPressed){
             if(gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold") <= gp.player.gold && gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood") <= gp.player.wood ){
                 gp.cas[gp.player.inTheTown].buildings.get(num).buildAlready = true;
                 gp.player.gold -= gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("gold");
                 gp.player.wood -= gp.cas[gp.player.inTheTown].buildings.get(num).buildingCost.get("wood");
-                clicks = 0;
+                clicks = -1;
             }
             else{
                 noResources = "You don't have enough resources";
             }
-            gp.keyHandler.enterPressed = false;
         }
     }
 

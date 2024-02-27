@@ -78,14 +78,15 @@ public class KeyHandler implements KeyListener {
             rightPressed = false;
         }
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            escapePressed = false;
-            if(gp.player.inTheTown == -1){
-                if (gp.gameState == gp.playState)
-                    gp.gameState = gp.settingsState;
-                else if (gp.gameState == gp.settingsState)
-                    gp.gameState = gp.playState;
+            if (gp.gameState == gp.playState)
+                gp.gameState = gp.settingsState;
+            else if (gp.gameState == gp.settingsState)
+                gp.gameState = gp.playState;
+            else if(gp.gameState == gp.castleState){
+                gp.gameState = gp.playState;
+                gp.player.justLeft = true;
             }
-
+            escapePressed = false;
         }
         if(e.getKeyCode() == KeyEvent.VK_P){
             if(gp.gameState == gp.playState)

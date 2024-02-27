@@ -16,7 +16,7 @@ public class Player extends Entity{
     MouseHandler mh;
     int counter = 0, moveX, moveY;
     public int indexOfObjectToRemove, xLocationOfObjectToRemove, yLocationOfObjectToRemove;
-    public boolean isGoingToObject = false;
+    public boolean isGoingToObject = false, justLeft = false;
     boolean pickedUpAnObject;
     public int inTheTown = -1;
     int pickedUpAnObjectCounter = 0;
@@ -78,8 +78,6 @@ public class Player extends Entity{
     }
 
     public void update() {
-        isPlayerInTheTown(worldX/gp.tileSize, worldY/gp.tileSize);
-        if(gp.keyHandler.escapePressed && inTheTown != -1) inTheTown = -1;
 
         if(gp.mouseMotionHandler.moveUp || gp.keyHandler.upPressed)
             mapOffsetY -= speed*moveMapSpeed;
@@ -93,6 +91,12 @@ public class Player extends Entity{
             counter++;
             goAnimation();
         } else {
+            isPlayerInTheTown(worldX/gp.tileSize, worldY/gp.tileSize);
+            System.out.println("Town index: " + inTheTown);
+            System.out.println("Clicks: " + gp.ui.clicks);
+            if(inTheTown != -1 && !justLeft) {
+                gp.gameState = gp.castleState;
+            }
 
             if (gp.keyHandler.endTurnReleased) {
                 remainingMovementPoints = movementPoints;
@@ -133,6 +137,7 @@ public class Player extends Entity{
                         if (gp.oldX == gp.mouseHandler.released_tileX && gp.oldY == gp.mouseHandler.released_tileY) {
                             gp.clickCounter = 0;
                             //zrob cos po podwojnym klinieciu - np idz we wskazane miejsce
+                            justLeft = false;
                             gp.playerMoved = true;
                             going = true;
                             mapOffsetX = 0;
