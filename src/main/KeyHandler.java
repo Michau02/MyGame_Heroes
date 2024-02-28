@@ -8,6 +8,7 @@ public class KeyHandler implements KeyListener {
     GamePanel gp;
     public boolean  upPressed= false, leftPressed= false, rightPressed= false, downPressed= false, escapePressed = false,
                     endTurnPressed = false, endTurnReleased = false, movePressed = false, yKeyPressed = false, enterPressed = false;
+    public boolean spaceTyped = false;
 
     public KeyHandler(GamePanel gp){
         this.gp = gp;
@@ -15,7 +16,8 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        if(e.getKeyChar() == ' ')
+            spaceTyped = !spaceTyped;
     }
 
     @Override
