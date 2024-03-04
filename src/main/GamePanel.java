@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, mouseHandler);
     public ArrayList<SuperObject> obj = new ArrayList<SuperObject>();
     public ArrayList<SuperObject> objInv = new ArrayList<SuperObject>();
-    public SuperCastle[] cas = new SuperCastle[1];
+    public ArrayList<SuperCastle> cas = new ArrayList<>();
     public CastlePanel castlePanel = new CastlePanel(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     public UI ui = new UI(this);
@@ -160,8 +160,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         //castles
         for (SuperCastle ca : cas) {
-            if (ca != null)
-                ca.draw(g2, this);
+            ca.draw(g2, this);
         }
 
         //player

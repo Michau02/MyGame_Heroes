@@ -64,10 +64,10 @@ public class AssetSetter {
         gp.objInv.get(1).worldY = (gp.maxWorldRow-1)*gp.tileSize;
 
         //CASTLES
-        gp.cas[0] = new CAS_People();
-        gp.cas[0].worldX = 6*gp.tileSize;
-        gp.cas[0].worldY = 8*gp.tileSize;
-        gp.player.playersCastles.add(gp.cas[0]);
+        gp.cas.add(new CAS_People());
+        gp.cas.get(0).worldX = 6*gp.tileSize;
+        gp.cas.get(0).worldY = 8*gp.tileSize;
+        gp.player.playersCastles.add(gp.cas.get(0));
     }
     public void set(int type, int x, int y) {
         if(type >= 0 && type < 2){

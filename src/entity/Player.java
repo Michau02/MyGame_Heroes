@@ -173,8 +173,8 @@ public class Player extends Entity{
         }
     }
     public void isPlayerInTheTown(int playersX, int playersY){
-        for(int i = 0; i < gp.cas.length; i++){
-            if(gp.cas[i] != null && (gp.cas[i].worldX+2)/gp.tileSize == playersX-1 && (gp.cas[i].worldY+2)/gp.tileSize == playersY-1){
+        for(int i = 0; i < gp.cas.size(); i++){
+            if(gp.cas.get(i) != null && (gp.cas.get(i).worldX+2)/gp.tileSize == playersX-1 && (gp.cas.get(i).worldY+2)/gp.tileSize == playersY-1){
                 inTheTown = i;
                 return;
             }
