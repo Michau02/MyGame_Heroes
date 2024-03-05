@@ -69,7 +69,7 @@ public class UI {
             }
         }
         if(!type.equals("object"))
-            name = gp.tileManager.tile[gp.tileManager.mapTileNum[gp.mouseX][gp.mouseY]].name;
+            name = gp.tileManager.tile.get(gp.tileManager.mapTileNum[gp.mouseX][gp.mouseY]).name;
 
         italicBOLD_20Width = italicBOLD_20Metrics.stringWidth(name);
 

@@ -14,7 +14,7 @@ import java.util.Objects;
 public class TileManager {
 
     GamePanel gp;
-    public Tile[] tile;
+    public ArrayList<Tile> tile;
     public int[][] mapTileNum;
 
     //pathfinding
@@ -29,7 +29,7 @@ public class TileManager {
 
     public TileManager(GamePanel gp){
         this.gp = gp;
-        tile = new Tile[20];
+        tile = new ArrayList<>();
         fileName = "SimpleMap2_48x27";
         String[] name = fileName.split("_");
         String[] sizeOfMap = name[1].split("\\.");
@@ -57,7 +57,7 @@ public class TileManager {
                 numbers = line.split(" ");
                 while(col < mapSizeX){
                     mapTileNum[col][row] = Integer.parseInt(numbers[col]);
-                    node = new Node(col, row, tile[mapTileNum[col][row]].collision);
+                    node = new Node(col, row, tile.get(mapTileNum[col][row]).collision);
                     mapNode[col][row] = node;
                     col++;
                 }
@@ -74,56 +74,56 @@ public class TileManager {
     public void getTileImage(){
         try{
             //GRASS
-            tile[0] = new Tile();
-            tile[0].name = "grass";
-            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/BasicGrass.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/BasicGrass.png")));
 
-            tile[1] = new Tile();
-            tile[1].name = "grass";
-            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/BasicGrass_2.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/BasicGrass_2.png")));
 
-            tile[2] = new Tile();
-            tile[2].name = "grass";
-            tile[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Bottom.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Bottom.png")));
 
-            tile[3] = new Tile();
-            tile[3].name = "grass";
-            tile[3].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left.png")));
 
-            tile[4] = new Tile();
-            tile[4].name = "grass";
-            tile[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right.png")));
 
-            tile[5] = new Tile();
-            tile[5].name = "grass";
-            tile[5].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Top.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Top.png")));
 
-            tile[6] = new Tile();
-            tile[6].name = "grass";
-            tile[6].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left_Bottom.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left_Bottom.png")));
 
-            tile[7] = new Tile();
-            tile[7].name = "grass";
-            tile[7].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left_Top.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Left_Top.png")));
 
-            tile[8] = new Tile();
-            tile[8].name = "grass";
-            tile[8].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right_Bottom.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right_Bottom.png")));
 
-            tile[9] = new Tile();
-            tile[9].name = "grass";
-            tile[9].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right_Top.png")));
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "grass";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/grass/GrassWater_Right_Top.png")));
 
             //WATER
-            tile[10] = new Tile();
-            tile[10].name = "water";
-            tile[10].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/water/BasicWater.png")));
-            tile[10].collision = true;
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "water";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/water/BasicWater.png")));
+            tile.get(tile.size()-1).collision = true;
 
-            tile[11] = new Tile();
-            tile[11].name = "water";
-            tile[11].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/water/BasicWater_2.png")));
-            tile[11].collision = true;
+            tile.add(new Tile());
+            tile.get(tile.size()-1).name = "water";
+            tile.get(tile.size()-1).image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/water/BasicWater_2.png")));
+            tile.get(tile.size()-1).collision = true;
 
         }catch (IOException e){
             e.printStackTrace();
@@ -146,7 +146,7 @@ public class TileManager {
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY - gp.player.mapOffsetY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY + gp.player.mapOffsetY)
             {
-                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(tile.get(tileNum).image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
             worldCol++;
             if(worldCol == mapSizeX){

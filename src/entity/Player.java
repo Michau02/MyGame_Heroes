@@ -124,7 +124,7 @@ public class Player extends Entity{
             }
             if (gp.mouseHandler.leftButtonReleased && (gp.mouseHandler.released_tileX >= 0 && gp.mouseHandler.released_tileX <= gp.screenWidth && gp.mouseHandler.released_tileY >= 0 && gp.mouseHandler.released_tileY <= gp.screenHeight) && !gp.tileManager.mapNode[gp.mouseX][gp.mouseY].solid) {
                 //poruszanie sie po mapie
-                if (gp.mouseHandler.released_tileX == gp.mouseX && gp.mouseHandler.released_tileY == gp.mouseY && !gp.tileManager.tile[gp.tileManager.mapTileNum[gp.mouseX][gp.mouseY]].collision && !going) { // jeszcze przypadek can't reach there
+                if (gp.mouseHandler.released_tileX == gp.mouseX && gp.mouseHandler.released_tileY == gp.mouseY && !gp.tileManager.tile.get(gp.tileManager.mapTileNum[gp.mouseX][gp.mouseY]).collision && !going) { // jeszcze przypadek can't reach there
                     gp.clickCounter++;
                     if (gp.clickCounter == 1 && !(worldX / gp.tileSize == gp.mouseX && worldY / gp.tileSize == gp.mouseY)) {
                         //wyswietl najkrotsza droge
