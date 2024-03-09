@@ -96,9 +96,9 @@ public class UI {
     public void drawInterface(Graphics2D g2){
         drawResources(g2);
         drawCalendar(g2);
-        drawMovementPoints(g2);
+        drawMovementAndManaPoints(g2);
     }
-    public void drawMovementPoints(Graphics2D g2){
+    public void drawMovementAndManaPoints(Graphics2D g2){
         g2.setColor(Color.white);
         g2.setFont(arialITALIC_18);
         g2.drawString("Remaining movement points: " + gp.player.remainingMovementPoints +  "/" + gp.player.movementPoints, gp.tileSize/6, (int)(((double)gp.maxWorldRow-1.25)*gp.tileSize));
@@ -107,9 +107,14 @@ public class UI {
             g2.fillRect(gp.player.screenX - gp.player.mapOffsetX, gp.player.screenY - gp.player.mapOffsetY -gp.tileSize/2, gp.tileSize*gp.player.remainingMovementPoints/8, gp.tileSize/6);
             g2.setColor(Color.black);
             g2.drawRect(gp.player.screenX - gp.player.mapOffsetX, gp.player.screenY - gp.player.mapOffsetY -gp.tileSize/2, gp.tileSize, gp.tileSize/6);
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < gp.player.remainingMovementPoints; i++){
                 g2.drawLine(gp.player.screenX - gp.player.mapOffsetX + (i*gp.tileSize/8), gp.player.screenY - gp.player.mapOffsetY -gp.tileSize/2, gp.player.screenX - gp.player.mapOffsetX + (i*gp.tileSize/8), gp.player.screenY - gp.player.mapOffsetY -gp.tileSize/2 + gp.tileSize/6);
             }
+            g2.setColor(new Color(50,200,220));
+            g2.fillRect(gp.player.screenX - gp.player.mapOffsetX, gp.player.screenY - gp.player.mapOffsetY -gp.tileSize/2 - gp.tileSize/6, (int)(gp.tileSize*((gp.player.remainingManaPoints/(double)gp.player.manaPoints))), gp.tileSize/6);
+            g2.setColor(Color.black);
+            g2.drawRect(gp.player.screenX - gp.player.mapOffsetX, gp.player.screenY - gp.player.mapOffsetY -gp.tileSize/2 - gp.tileSize/6, gp.tileSize, gp.tileSize/6);
+
         }
     }
     public void drawCalendar(Graphics2D g2){

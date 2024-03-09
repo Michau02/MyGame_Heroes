@@ -52,7 +52,9 @@ public class Player extends Entity{
         speed = 2; // 1, 2, 3
         direction = "left";
         movementPoints = 8;
+        manaPoints = 10;
         remainingMovementPoints = movementPoints;
+        remainingManaPoints = 0;
     }
     public void getPlayerImage(){
         try{
@@ -99,20 +101,7 @@ public class Player extends Entity{
             }
 
             if (gp.keyHandler.endTurnReleased) {
-                remainingMovementPoints = movementPoints;
-                gp.clickCounter = 1;
-                gold += goldPerTurn;
-                wood += woodPerTurn;
-                gp.day++;
-                if(gp.day%8 == 0){
-                    gp.day = 1;
-                    gp.week++;
-                    if(gp.week%5 == 0){
-                        gp.week = 1;
-                        gp.month++;
-                    }
-                }
-                gp.keyHandler.endTurnReleased = false;
+                newTurn();
             }
             if (gp.keyHandler.movePressed) {
                 if(isGoingToObject) {
@@ -171,6 +160,23 @@ public class Player extends Entity{
                 gp.clickCounter = 0;
             }
         }
+    }
+    public void newTurn(){
+        remainingMovementPoints = movementPoints;
+        remainingManaPoints = Math.min(remainingManaPoints + 2, manaPoints);
+        gp.clickCounter = 1;
+        gold += goldPerTurn;
+        wood += woodPerTurn;
+        gp.day++;
+        if(gp.day%8 == 0){
+            gp.day = 1;
+            gp.week++;
+            if(gp.week%5 == 0){
+                gp.week = 1;
+                gp.month++;
+            }
+        }
+        gp.keyHandler.endTurnReleased = false;
     }
     public void isPlayerInTheTown(int playersX, int playersY){
         for(int i = 0; i < gp.cas.size(); i++){
