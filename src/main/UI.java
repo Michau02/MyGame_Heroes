@@ -68,8 +68,13 @@ public class UI {
                 }
             }
         }
-        if(!type.equals("object"))
-            name = gp.tileManager.tile.get(gp.tileManager.mapTileNum[gp.mouseX][gp.mouseY]).name;
+        if(!type.equals("object")){
+            if(gp.player.worldX/gp.tileSize == gp.mouseX && gp.player.worldY/gp.tileSize == gp.mouseY)
+                name = "Player";
+            else
+                name = gp.tileManager.tile.get(gp.tileManager.mapTileNum[gp.mouseX][gp.mouseY]).name;
+        }
+
 
         italicBOLD_20Width = italicBOLD_20Metrics.stringWidth(name);
 
@@ -114,7 +119,6 @@ public class UI {
             g2.fillRect(gp.player.screenX - gp.player.mapOffsetX, gp.player.screenY - gp.player.mapOffsetY -gp.tileSize/2 - gp.tileSize/6, (int)(gp.tileSize*((gp.player.remainingManaPoints/(double)gp.player.manaPoints))), gp.tileSize/6);
             g2.setColor(Color.black);
             g2.drawRect(gp.player.screenX - gp.player.mapOffsetX, gp.player.screenY - gp.player.mapOffsetY -gp.tileSize/2 - gp.tileSize/6, gp.tileSize, gp.tileSize/6);
-
         }
     }
     public void drawCalendar(Graphics2D g2){
@@ -191,7 +195,7 @@ public class UI {
                 g2.drawString("Buildings build: ", gp.tileSize, 18*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
                 for(int i = 0; i < gp.cas.get(gp.player.inTheTown).buildings.size(); i++){
                     if(gp.cas.get(gp.player.inTheTown).buildings.get(i).buildAlready)
-                        g2.drawString("- " +  gp.cas.get(gp.player.inTheTown).buildings.get(i), gp.tileSize, (19+i)*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
+                        g2.drawString("- " +  gp.cas.get(gp.player.inTheTown).buildings.get(i).name, gp.tileSize, (19+i)*gp.tileSize + 5 * fontMetrics.getAscent()+(int)(fontMetrics.getAscent() * 0.5));
                     i++;
                 }
 
@@ -203,10 +207,10 @@ public class UI {
                         askForConfirmation(g2, 0);
                     }
                     else if(clicks == 1 && gp.cas.get(gp.player.inTheTown).buildings.get(0).buildAlready){
-                        g2.fillRoundRect(gp.screenWidth/2-3*gp.tileSize, gp.screenHeight-2*gp.tileSize,6*gp.tileSize,4*gp.tileSize, 45, 45);
+                        g2.fillRoundRect(gp.screenWidth/2-5*gp.tileSize, gp.screenHeight/2-2*gp.tileSize,10*gp.tileSize,4*gp.tileSize, 45, 45);
                         g2.setColor(Color.black);
                         g2.setFont(italicBOLD_20);
-                        g2.drawString("Building is already built.", gp.screenWidth/2-3*gp.tileSize + 3*gp.tileSize - italicBOLD_20Width/2,gp.screenHeight-2*gp.tileSize + 2*gp.tileSize - italicBOLD_20Height/2);
+                        g2.drawString("Building is already built.", gp.screenWidth/2-5*gp.tileSize + (10*gp.tileSize - italicBOLD_20Metrics.stringWidth("Building is already built.")) / 2,gp.screenHeight/2-2*gp.tileSize + gp.tileSize - italicBOLD_20Height/2);
                     }
                 }
                 else if(gp.mouseHandler.leftButtonReleased && (gp.mouseHandler.gp.mouseHandler.x >= (gp.castlePanel.width-gp.tileSize*6)/2 && gp.mouseHandler.gp.mouseHandler.x <= gp.tileSize*6 + (gp.castlePanel.width-gp.tileSize*6)/2 &&
@@ -254,7 +258,6 @@ public class UI {
             }
         }
     }
-
     public void drawPausePanel(Graphics2D g2){
         g2.setFont(italicBOLD_40);
         g2.setColor(Color.WHITE);

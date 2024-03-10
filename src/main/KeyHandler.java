@@ -8,7 +8,7 @@ public class KeyHandler implements KeyListener {
     GamePanel gp;
     public boolean  upPressed= false, leftPressed= false, rightPressed= false, downPressed= false, escapePressed = false,
                     endTurnPressed = false, endTurnReleased = false, movePressed = false, yKeyPressed = false, enterPressed = false;
-    public boolean spaceTyped = false;
+    public boolean spaceTyped = false, escapeTyped = false;
 
     public KeyHandler(GamePanel gp){
         this.gp = gp;

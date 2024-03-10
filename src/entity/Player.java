@@ -9,7 +9,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.Random;
 
 public class Player extends Entity{
     GamePanel gp;
@@ -23,8 +25,12 @@ public class Player extends Entity{
     String pickedUpObjectsName, showPickedUpObjectMessage;
     int showPickedUpObjectX, showPickedUpObjectY;
     int moveMapSpeed = 3; //scale given by player to calculate speed of moving map -> speed * moveMapSpeed;
+    int level;
     public int mapOffsetY = 0, mapOffsetX = 0;
+    public HashMap<String, Integer> playersAttributes = new HashMap<>();
+    public int exp, expToNextLevel;
     public ArrayList <SuperCastle> playersCastles = new ArrayList<>();
+    Random random = new Random();
 
     public int wood = 0, gold = 0, woodPerTurn = 0, goldPerTurn = 0;
 
@@ -47,6 +53,13 @@ public class Player extends Entity{
         }
     }
     public void setDefaultValues(){
+        level = 1;
+        exp = 0;
+        expToNextLevel=1000;
+        playersAttributes.put("Attack", 1);
+        playersAttributes.put("Defence", 1);
+        playersAttributes.put("Power", 1);
+        playersAttributes.put("Knowledge", 1);
         worldX = 7*gp.tileSize;
         worldY = 10*gp.tileSize;
         speed = 2; // 1, 2, 3
@@ -54,7 +67,7 @@ public class Player extends Entity{
         movementPoints = 8;
         manaPoints = 10;
         remainingMovementPoints = movementPoints;
-        remainingManaPoints = 0;
+        remainingManaPoints = manaPoints;
     }
     public void getPlayerImage(){
         try{
@@ -74,6 +87,7 @@ public class Player extends Entity{
             downStanding = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/rightStanding.png")));
             downWalk1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftWalk1.png")));
             downWalk2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/leftStanding.png")));
+
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -94,8 +108,6 @@ public class Player extends Entity{
             goAnimation();
         } else {
             isPlayerInTheTown(worldX/gp.tileSize, worldY/gp.tileSize);
-            System.out.println("Town index: " + inTheTown);
-            System.out.println("Clicks: " + gp.ui.clicks);
             if(inTheTown != -1 && !justLeft) {
                 gp.gameState = gp.castleState;
             }
@@ -161,6 +173,20 @@ public class Player extends Entity{
             }
         }
     }
+    public void levelUp(){
+        level++;
+        expToNextLevel += expToNextLevel*1.5;
+        int r = random.nextInt(10);
+
+        if(r < 3)
+            playersAttributes.replace("Attack", playersAttributes.get("Attack")+1);
+        else if(r < 6)
+            playersAttributes.replace("Defence", playersAttributes.get("Defence")+1);
+        else if(r < 8)
+            playersAttributes.replace("Power", playersAttributes.get("Power")+1);
+        else
+            playersAttributes.replace("Knowledge", playersAttributes.get("Knowledge")+1);
+    }
     public void newTurn(){
         remainingMovementPoints = movementPoints;
         remainingManaPoints = Math.min(remainingManaPoints + 2, manaPoints);
@@ -182,10 +208,12 @@ public class Player extends Entity{
         for(int i = 0; i < gp.cas.size(); i++){
             if(gp.cas.get(i) != null && (gp.cas.get(i).worldX+2)/gp.tileSize == playersX-1 && (gp.cas.get(i).worldY+2)/gp.tileSize == playersY-1){
                 inTheTown = i;
+                gp.gameState = gp.castleState;
                 return;
             }
         }
         inTheTown = -1;
+        gp.gameState = gp.playState;
     }
     public boolean goingToObject(int destinationX, int destinationY){
         for(int i = 0; i < gp.obj.size(); i++){
